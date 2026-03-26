@@ -1,0 +1,402 @@
+﻿{
+  "config": {
+    "configFile": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\playwright.config.ts",
+    "rootDir": "C:/Users/Randhy/Desktop/Projects/Test Agent/frontend/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Randhy/Desktop/Projects/Test Agent/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/Randhy/Desktop/Projects/Test Agent/frontend/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "main-flow.spec.ts",
+      "file": "main-flow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "End-to-End Flow: Auth -> Simulation -> PDF",
+          "file": "main-flow.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "1 - Login page loads and shows correct fields",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2972,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=login\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=login\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=login\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=login\", waiting until \"load\"\u001b[22m\n\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:8:16",
+                        "location": {
+                          "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                          "column": 16,
+                          "line": 8
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  6 |\u001b[39m\n \u001b[90m  7 |\u001b[39m   test(\u001b[32m'1 - Login page loads and shows correct fields'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  8 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/?mode=login'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Entrar na plataforma'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'input[name=\"email\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'input[name=\"password\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                            "column": 16,
+                            "line": 8
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=login\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=login\", waiting until \"load\"\u001b[22m\n\n\n   6 |\n   7 |   test('1 - Login page loads and shows correct fields', async ({ page }) => {\n>  8 |     await page.goto('/?mode=login');\n     |                ^\n   9 |     await expect(page.locator('text=Entrar na plataforma')).toBeVisible();\n  10 |     await expect(page.locator('input[name=\"email\"]')).toBeVisible();\n  11 |     await expect(page.locator('input[name=\"password\"]')).toBeVisible();\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:8:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:35:19.585Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\test-results\\main-flow-End-to-End-Flow--08e83-ds-and-shows-correct-fields-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                        "column": 16,
+                        "line": 8
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-e10383488590a2be72a5",
+              "file": "main-flow.spec.ts",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "2 - Register page loads and shows correct form",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2917,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:15:16",
+                        "location": {
+                          "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                          "column": 16,
+                          "line": 15
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 13 |\u001b[39m\n \u001b[90m 14 |\u001b[39m   test(\u001b[32m'2 - Register page loads and shows correct form'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/?mode=register'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 16 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Crie sua conta'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 17 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'input[name=\"name\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'input[name=\"email\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                            "column": 16,
+                            "line": 15
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n\n\n  13 |\n  14 |   test('2 - Register page loads and shows correct form', async ({ page }) => {\n> 15 |     await page.goto('/?mode=register');\n     |                ^\n  16 |     await expect(page.locator('text=Crie sua conta')).toBeVisible();\n  17 |     await expect(page.locator('input[name=\"name\"]')).toBeVisible();\n  18 |     await expect(page.locator('input[name=\"email\"]')).toBeVisible();\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:15:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:35:25.281Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\test-results\\main-flow-End-to-End-Flow--2d2ef-oads-and-shows-correct-form-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                        "column": 16,
+                        "line": 15
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-7ba2256556a21383f4d4",
+              "file": "main-flow.spec.ts",
+              "line": 14,
+              "column": 3
+            },
+            {
+              "title": "3 - Landing page loads correctly",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2864,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/\", waiting until \"load\"\u001b[22m\n\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:24:16",
+                        "location": {
+                          "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                          "column": 16,
+                          "line": 24
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 22 |\u001b[39m\n \u001b[90m 23 |\u001b[39m   test(\u001b[32m'3 - Landing page loads correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 24 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 25 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=EngenhariaPro'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 26 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 27 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                            "column": 16,
+                            "line": 24
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/\", waiting until \"load\"\u001b[22m\n\n\n  22 |\n  23 |   test('3 - Landing page loads correctly', async ({ page }) => {\n> 24 |     await page.goto('/');\n     |                ^\n  25 |     await expect(page.locator('text=EngenhariaPro')).toBeVisible({ timeout: 10000 });\n  26 |   });\n  27 |\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:24:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:35:29.967Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\test-results\\main-flow-End-to-End-Flow--245f8-anding-page-loads-correctly-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                        "column": 16,
+                        "line": 24
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-fc0c1f594005e8bb1249",
+              "file": "main-flow.spec.ts",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "4 - Register a new user and access dashboard",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2878,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:32:16",
+                        "location": {
+                          "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                          "column": 16,
+                          "line": 32
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 30 |\u001b[39m     \n \u001b[90m 31 |\u001b[39m     \u001b[90m// Register using the form\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/?mode=register'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[name=\"name\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'Playwright Tester'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[name=\"email\"]'\u001b[39m\u001b[33m,\u001b[39m uniqueEmail)\u001b[33m;\u001b[39m\n \u001b[90m 35 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[name=\"password\"]'\u001b[39m\u001b[33m,\u001b[39m testPassword)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                            "column": 16,
+                            "line": 32
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n\n\n  30 |     \n  31 |     // Register using the form\n> 32 |     await page.goto('/?mode=register');\n     |                ^\n  33 |     await page.fill('input[name=\"name\"]', 'Playwright Tester');\n  34 |     await page.fill('input[name=\"email\"]', uniqueEmail);\n  35 |     await page.fill('input[name=\"password\"]', testPassword);\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:32:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:35:34.696Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\test-results\\main-flow-End-to-End-Flow--6b39b-w-user-and-access-dashboard-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                        "column": 16,
+                        "line": 32
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-92e73c57d987c2945f5a",
+              "file": "main-flow.spec.ts",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "5 - HVAC Simulation form is accessible via the simulator tab",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2610,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:68:16",
+                        "location": {
+                          "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                          "column": 16,
+                          "line": 68
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 66 |\u001b[39m     \n \u001b[90m 67 |\u001b[39m     \u001b[90m// Register & login\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 68 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/?mode=register'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[name=\"name\"]'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'HVAC Tester'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[name=\"email\"]'\u001b[39m\u001b[33m,\u001b[39m uniqueEmail)\u001b[33m;\u001b[39m\n \u001b[90m 71 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mfill(\u001b[32m'input[name=\"password\"]'\u001b[39m\u001b[33m,\u001b[39m testPassword)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                            "column": 16,
+                            "line": 68
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/?mode=register\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/?mode=register\", waiting until \"load\"\u001b[22m\n\n\n  66 |     \n  67 |     // Register & login\n> 68 |     await page.goto('/?mode=register');\n     |                ^\n  69 |     await page.fill('input[name=\"name\"]', 'HVAC Tester');\n  70 |     await page.fill('input[name=\"email\"]', uniqueEmail);\n  71 |     await page.fill('input[name=\"password\"]', testPassword);\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:68:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:35:39.300Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\test-results\\main-flow-End-to-End-Flow--412fa-sible-via-the-simulator-tab-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                        "column": 16,
+                        "line": 68
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-d7356546e26d94299b62",
+              "file": "main-flow.spec.ts",
+              "line": 64,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-03-16T01:35:18.175Z",
+    "duration": 24337.711000000003,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

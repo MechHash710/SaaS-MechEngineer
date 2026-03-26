@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{# ── 1. IDENTIFICAÇÃO DO OBJETO DE LAUDO ─────────────────────────────── #}
+<div class="section-title">1. Objeto e Identificação</div>
+<table style="width:100%; margin-bottom: 18pt;">
+    <tr>
+        <td style="width: 35%; font-weight: bold; background: #F8FAFC; padding: 5pt 8pt; color:#1B2A4A;">Obra / Cliente</td>
+        <td style="padding: 5pt 8pt;">{{ cliente_nome if cliente_nome else '—' }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold; background: #F8FAFC; padding: 5pt 8pt; color:#1B2A4A;">Endereço / Localização</td>
+        <td style="padding: 5pt 8pt;">{{ localizacao if localizacao else '—' }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold; background: #F8FAFC; padding: 5pt 8pt; color:#1B2A4A;">Engenheiro Responsável (CREA)</td>
+        <td style="padding: 5pt 8pt;">{{ engineer_crea }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold; background: #F8FAFC; padding: 5pt 8pt; color:#1B2A4A;">Norma Técnica Aplicável</td>
+        <td style="padding: 5pt 8pt;">{{ norma_referencia }}</td>
+    </tr>
+</table>
+
+{# ── 2. DESCRIÇÃO DO SISTEMA ─────────────────────────────────────────── #}
+<div class="section-title">2. Descrição do Sistema</div>
+<div style="border-left: 3pt solid #2563EB; padding: 10pt 16pt; background: #F8FAFC; margin-bottom: 20pt; font-size: 9.5pt; color: #334155; line-height: 1.7;">
+    <strong>Tipo de Sistema:</strong> {{ sistema_tipo }}<br/>
+    <strong>Capacidade / Dimensionamento:</strong>
+    <span style="font-family: 'Courier New', monospace; font-weight: bold; color: #1B2A4A; font-size: 11pt; margin-left: 4pt;">{{ equipment_btu }}</span>
+</div>
+
+{# ── 3. ANÁLISE TÉCNICA ──────────────────────────────────────────────── #}
+<div class="section-title">3. Análise Técnica e Conformidade</div>
+<p style="font-size: 9pt; color: #334155; margin-bottom: 12pt; line-height: 1.7;">
+    O dimensionamento foi realizado por procedimento computacional paramétrico validado, aplicando os coeficientes e metodologia de cálculo previstos em {{ norma_referencia }}.
+    Os parâmetros verificados estão dentro das faixas normativas e atendem os requisitos de conforto térmico e segurança para a ocupação declarada.
+</p>
+
+<div style="display: flex; gap: 10pt; margin-bottom: 18pt;">
+    <div style="flex: 1; padding: 12pt; border: 0.5pt solid #10B981; background: #ECFDF5; border-radius: 2pt;">
+        <div style="font-size: 8pt; font-weight: bold; color: #059669; text-transform: uppercase; letter-spacing: 0.4pt; margin-bottom: 6pt;">✓ Conformidade NBR</div>
+        <div style="font-size: 9pt; color: #065F46;">Metodologia de cálculo aderente à norma {{ norma_referencia }}. Resultado dentro das faixas aceitáveis.</div>
+    </div>
+    <div style="flex: 1; padding: 12pt; border: 0.5pt solid #F59E0B; background: #FFFBEB; border-radius: 2pt;">
+        <div style="font-size: 8pt; font-weight: bold; color: #D97706; text-transform: uppercase; letter-spacing: 0.4pt; margin-bottom: 6pt;">⚠ Premissas de Campo</div>
+        <div style="font-size: 9pt; color: #78350F;">Os dados de GHI/CLT utilizados são estimativas baseadas em médias climáticas históricas para a localização informada.</div>
+    </div>
+</div>
+
+{# ── 4. CONCLUSÃO E RECOMENDAÇÕES ────────────────────────────────────── #}
+<div class="section-title">4. Conclusões e Recomendações</div>
+<p style="font-size: 9pt; color: #334155; margin-bottom: 10pt; line-height: 1.7;">
+    Com base na análise técnica conduzida, este Laudo atesta a adequação técnica do sistema proposto ao uso pretendido.
+    Recomenda-se atenção especial às melhores práticas de instalação e manutenção preventiva conforme as especificações do fabricante e orientações da norma referenciada.
+</p>
+
+{# ── 5. REFERÊNCIAS NORMATIVAS ───────────────────────────────────────── #}
+<div class="section-title">5. Referências Normativas</div>
+<ul style="font-size: 9pt; color: #334155; line-height: 2.0; margin-left: 15pt;">
+    {% if referencias %}
+        {% for ref in referencias %}
+        <li>{{ ref }}</li>
+        {% endfor %}
+    {% else %}
+        <li>{{ norma_referencia }} — Norma principal aplicável ao sistema</li>
+        <li>ABNT ISO 9001 — Sistema de Gestão da Qualidade (referência de processo)</li>
+    {% endif %}
+</ul>
+
+{# ── ASSINATURA ─────────────────────────────────────────────────────── #}
+<div style="margin-top: 50pt; padding-top: 15pt; border-top: 0.5pt solid #CBD5E1; display: flex; justify-content: flex-end;">
+    <div style="text-align: center; width: 240pt;">
+        <div style="border-top: 1pt solid #0F172A; padding-top: 6pt; margin-top: 40pt;">
+            <div style="font-weight: bold; font-size: 10pt; color: #1B2A4A;">{{ engineer_crea }}</div>
+            <div style="font-size: 8pt; color: #64748B; margin-top: 2pt;">Responsável Técnico — Engenheiro CREA</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

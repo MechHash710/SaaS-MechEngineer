@@ -1,0 +1,96 @@
+[2m[WebServer] [22m
+[2m[WebServer] [22m> projeto-8@0.0.0 dev
+[2m[WebServer] [22m> vite --port 5174
+[2m[WebServer] [22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m  [32m[1mVITE[22m v8.0.0[39m  [2mready in [0m[1m304[22m[2m[0m ms[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5174[22m/[39m
+[2m[WebServer] [22m[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+
+Running 4 tests using 1 worker
+
+  ✓  1 [chromium] › e2e\simulation.spec.ts:23:3 › Formulário Solar Simulator — Cobertura Completa QA › exibe todos os campos com unidades de engenharia nos labels (3.4s)
+  ✓  2 [chromium] › e2e\simulation.spec.ts:37:3 › Formulário Solar Simulator — Cobertura Completa QA › mostra erro nativo/schema ao esvaziar campo numérico obrigatório (935ms)
+  ✓  3 [chromium] › e2e\simulation.spec.ts:46:3 › Formulário Solar Simulator — Cobertura Completa QA › botão fica disabled e mostra texto de processamento durante chamada de API (926ms)
+  ✘  4 [chromium] › e2e\simulation.spec.ts:79:3 › Formulário Solar Simulator — Cobertura Completa QA › calcula com dados válidos, mostra AuditSteps e verifica engine de PDF (7.4s)
+  ✘  5 [chromium] › e2e\simulation.spec.ts:79:3 › Formulário Solar Simulator — Cobertura Completa QA › calcula com dados válidos, mostra AuditSteps e verifica engine de PDF (retry #1) (7.6s)
+
+
+  1) [chromium] › e2e\simulation.spec.ts:79:3 › Formulário Solar Simulator — Cobertura Completa QA › calcula com dados válidos, mostra AuditSteps e verifica engine de PDF 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Memorial de Cálculo de AQS')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('Memorial de Cálculo de AQS')[22m
+
+
+      128 |     
+      129 |     // Validar UI do Step 3
+    > 130 |     await expect(page.getByText('Memorial de Cálculo de AQS')).toBeVisible();
+          |                                                                ^
+      131 |
+      132 |     // E2E Download do PDF Memorial
+      133 |     const downloadPromise = page.waitForEvent('download');
+        at C:\Users\Randhy\Desktop\Projects\Test Agent\frontend\e2e\simulation.spec.ts:130:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Memorial de Cálculo de AQS')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('Memorial de Cálculo de AQS')[22m
+
+
+      128 |     
+      129 |     // Validar UI do Step 3
+    > 130 |     await expect(page.getByText('Memorial de Cálculo de AQS')).toBeVisible();
+          |                                                                ^
+      131 |
+      132 |     // E2E Download do PDF Memorial
+      133 |     const downloadPromise = page.waitForEvent('download');
+        at C:\Users\Randhy\Desktop\Projects\Test Agent\frontend\e2e\simulation.spec.ts:130:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium-retry1\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium-retry1\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium-retry1\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\simulation-Formulário-Sola-7b9d2-ps-e-verifica-engine-de-PDF-chromium-retry1\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e\simulation.spec.ts:79:3 › Formulário Solar Simulator — Cobertura Completa QA › calcula com dados válidos, mostra AuditSteps e verifica engine de PDF 
+  3 passed (26.3s)

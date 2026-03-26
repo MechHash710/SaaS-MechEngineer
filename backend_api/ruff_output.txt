@@ -1,0 +1,970 @@
+﻿E402 Module level import not at top of file
+  --> alembic\env.py:16:1
+   |
+14 |     fileConfig(config.config_file_name)
+15 |
+16 | import os
+   | ^^^^^^^^^
+17 | import sys
+   |
+
+E402 Module level import not at top of file
+  --> alembic\env.py:17:1
+   |
+16 | import os
+17 | import sys
+   | ^^^^^^^^^^
+18 |
+19 | sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+   |
+
+E402 Module level import not at top of file
+  --> alembic\env.py:21:1
+   |
+19 | sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+20 |
+21 | from database import DATABASE_URL
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+22 | from models.base import Base
+   |
+
+E402 Module level import not at top of file
+  --> alembic\env.py:22:1
+   |
+21 | from database import DATABASE_URL
+22 | from models.base import Base
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+23 |
+24 | target_metadata = Base.metadata
+   |
+
+W291 Trailing whitespace
+ --> alembic\versions\f12269ae0bec_initial.py:4:9
+  |
+3 | Revision ID: f12269ae0bec
+4 | Revises: 
+  |         ^
+5 | Create Date: 2026-03-15 20:54:38.901528
+  |
+help: Remove trailing whitespace
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> core\dependencies.py:12:73
+   |
+11 | # TEST MODE: auth bypass enabled ÔÇö remove for production
+12 | def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+   |                                                                         ^^^^^^^^^^^^^^^
+13 |     # Try token auth first
+14 |     if token:
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> core\dependencies.py:41:46
+   |
+40 | def require_role(role: str):
+41 |     def role_dependency(current_user: User = Depends(get_current_user)):
+   |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^
+42 |         # currently user plan represents roles in our simplified context
+43 |         # normally you would have a specific role field
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> core\quota.py:15:47
+   |
+14 | def check_quota(action: str):
+15 |     def quota_dependency(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
+16 |         return current_user  # TEST MODE: quota bypass ÔÇö remove for production
+17 |         # --- original quota logic below ---
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> core\quota.py:15:88
+   |
+14 | def check_quota(action: str):
+15 |     def quota_dependency(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                                                                        ^^^^^^^^^^^^^^^
+16 |         return current_user  # TEST MODE: quota bypass ÔÇö remove for production
+17 |         # --- original quota logic below ---
+   |
+
+SIM102 Use a single `if` statement instead of nested `if` statements
+  --> main.py:65:5
+   |
+63 |       response.headers["X-Process-Time"] = str(process_time)
+64 |
+65 | /     if request.method == "GET" and response.status_code == 200:
+66 | |         if "Cache-Control" not in response.headers:
+   | |___________________________________________________^
+67 |               response.headers["Cache-Control"] = "public, max-age=60"
+   |
+help: Combine `if` statements using `and`
+
+RUF003 Comment contains ambiguous `ÔÇô` (EN DASH). Did you mean `-` (HYPHEN-MINUS)?
+  --> models\feedback.py:14:50
+   |
+12 |     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+13 |     user_id = Column(String, ForeignKey("users.id"), nullable=True, index=True)
+14 |     rating = Column(Integer, nullable=False)  # 1ÔÇô5 stars
+   |                                                  ^
+15 |     category = Column(String, nullable=False, default="sugestao")  # 'bug' | 'sugestao' | 'elogio'
+16 |     message = Column(Text, nullable=True)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\admin.py:19:35
+   |
+18 | @router.get("/stats")
+19 | def get_admin_stats(db: Session = Depends(get_db)):
+   |                                   ^^^^^^^^^^^^^^^
+20 |     total_users = db.query(User).count()
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\admin.py:52:35
+   |
+51 | @router.get("/users")
+52 | def get_admin_users(db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
+   |                                   ^^^^^^^^^^^^^^^
+53 |     users = db.query(User).offset(skip).limit(limit).all()
+54 |     user_list = []
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\admin.py:68:78
+   |
+67 | @router.patch("/users/{user_id}/plan")
+68 | def update_user_plan(user_id: str, request: PlanUpdateRequest, db: Session = Depends(get_db)):
+   |                                                                              ^^^^^^^^^^^^^^^
+69 |     user = db.query(User).filter(User.id == user_id).first()
+70 |     if not user:
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\admin.py:83:45
+   |
+82 | @router.delete("/users/{user_id}")
+83 | def delete_user(user_id: str, db: Session = Depends(get_db)):
+   |                                             ^^^^^^^^^^^^^^^
+84 |     user = db.query(User).filter(User.id == user_id).first()
+85 |     if not user:
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\auth.py:46:49
+   |
+45 | @router.post("/register", response_model=UserResponse)
+46 | def register(user_in: UserCreate, db: Session = Depends(get_db)) -> Any:
+   |                                                 ^^^^^^^^^^^^^^^
+47 |     user = db.query(User).filter(User.email == user_in.email).first()
+48 |     if user:
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\auth.py:65:19
+   |
+63 | @router.post("/login", response_model=TokenSchema)
+64 | def login_access_token(
+65 |     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
+   |                   ^^^^^^^^^^^^^^^
+66 | ) -> Any:
+67 |     user = db.query(User).filter(User.email == form_data.username).first()
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\auth.py:65:75
+   |
+63 | @router.post("/login", response_model=TokenSchema)
+64 | def login_access_token(
+65 |     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
+   |                                                                           ^^^^^^^^^
+66 | ) -> Any:
+67 |     user = db.query(User).filter(User.email == form_data.username).first()
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\auth.py:81:63
+   |
+80 | @router.post("/refresh", response_model=TokenSchema)
+81 | def refresh_token(request: RefreshTokenRequest, db: Session = Depends(get_db)):
+   |                                                               ^^^^^^^^^^^^^^^
+82 |     payload = decode_token(request.refresh_token)
+83 |     if payload is None or payload.get("sub") is None:
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\auth.py:100:40
+    |
+ 99 | @router.get("/me", response_model=UserResponse)
+100 | def read_users_me(current_user: User = Depends(get_current_user)) -> Any:
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+101 |     return current_user
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\auth.py:104:33
+    |
+103 | @router.post("/logout")
+104 | def logout(current_user: User = Depends(get_current_user)):
+    |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+105 |     # Na arquitetura JWT state-less, logout real geralmente ├® feito apagando token no client
+106 |     # ou usando Redis para blacklist de tokens. Aqui faremos retorno de sucesso simples.
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:24:72
+   |
+23 | @router.post("/create_checkout_session")
+24 | async def create_checkout_session(data: CheckoutRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)ÔÇª
+   |                                                                        ^^^^^^^^^^^^^^^
+25 |     plan = data.plan
+26 |     if plan not in PLANS_CONFIG or plan == "free":
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:24:110
+   |
+23 | ÔÇª
+24 | ÔÇª, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+   |                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+25 | ÔÇª
+26 | ÔÇª
+   |
+
+B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+  --> routers\billing.py:61:9
+   |
+59 |         return {"checkout_url": checkout_session.url}
+60 |     except Exception as e:
+61 |         raise HTTPException(status_code=500, detail=str(e))
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+62 |
+63 | @router.get("/portal")
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:64:56
+   |
+63 | @router.get("/portal")
+64 | async def create_customer_portal_session(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+   |                                                        ^^^^^^^^^^^^^^^
+65 |     if not current_user.stripe_customer_id:
+66 |         raise HTTPException(status_code=400, detail="No active Stripe customer found.")
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:64:94
+   |
+63 | @router.get("/portal")
+64 | async def create_customer_portal_session(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+   |                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^
+65 |     if not current_user.stripe_customer_id:
+66 |         raise HTTPException(status_code=400, detail="No active Stripe customer found.")
+   |
+
+B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+  --> routers\billing.py:75:9
+   |
+73 |         return {"portal_url": portal_session.url}
+74 |     except Exception as e:
+75 |         raise HTTPException(status_code=500, detail=str(e))
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+76 |
+77 | @router.get("/subscription")
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:78:36
+   |
+77 | @router.get("/subscription")
+78 | def get_subscription(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+   |                                    ^^^^^^^^^^^^^^^
+79 |     return {
+80 |         "plan": current_user.plan,
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:78:74
+   |
+77 | @router.get("/subscription")
+78 | def get_subscription(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+   |                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+79 |     return {
+80 |         "plan": current_user.plan,
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:87:39
+   |
+86 | @router.post("/cancel")
+87 | def cancel_subscription(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+   |                                       ^^^^^^^^^^^^^^^
+88 |     if not current_user.stripe_subscription_id:
+89 |         raise HTTPException(status_code=400, detail="No active subscription found.")
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\billing.py:87:77
+   |
+86 | @router.post("/cancel")
+87 | def cancel_subscription(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+   |                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+88 |     if not current_user.stripe_subscription_id:
+89 |         raise HTTPException(status_code=400, detail="No active subscription found.")
+   |
+
+F841 Local variable `deleted_sub` is assigned to but never used
+  --> routers\billing.py:93:9
+   |
+91 |     try:
+92 |         # Cancel the subscription in Stripe
+93 |         deleted_sub = stripe.Subscription.delete(current_user.stripe_subscription_id)
+   |         ^^^^^^^^^^^
+94 |
+95 |         # We don't downgrade immediately usually (wait for period end), but for simplicity:
+   |
+help: Remove assignment to unused variable `deleted_sub`
+
+B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+   --> routers\billing.py:102:9
+    |
+100 |         return {"status": "success", "message": "Subscription cancelled"}
+101 |     except Exception as e:
+102 |         raise HTTPException(status_code=500, detail=str(e))
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\billing.py:106:58
+    |
+105 | @router.post("/webhook")
+106 | async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
+    |                                                          ^^^^^^^^^^^^^^^
+107 |     payload = await request.body()
+108 |     sig_header = request.headers.get("stripe-signature")
+    |
+
+F841 Local variable `sig_header` is assigned to but never used
+   --> routers\billing.py:108:5
+    |
+106 | async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
+107 |     payload = await request.body()
+108 |     sig_header = request.headers.get("stripe-signature")
+    |     ^^^^^^^^^^
+109 |
+110 |     try:
+    |
+help: Remove assignment to unused variable `sig_header`
+
+B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+   --> routers\billing.py:152:9
+    |
+150 |     except ValueError:
+151 |         # Invalid payload
+152 |         raise HTTPException(status_code=400, detail="Invalid payload")
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+153 |     except stripe.error.SignatureVerificationError:
+154 |         # Invalid signature
+    |
+
+B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+   --> routers\billing.py:155:9
+    |
+153 |     except stripe.error.SignatureVerificationError:
+154 |         # Invalid signature
+155 |         raise HTTPException(status_code=400, detail="Invalid signature")
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+
+C901 `_gerar_itens_por_btu` is too complex (11 > 10)
+  --> routers\budgeting.py:46:5
+   |
+46 | def _gerar_itens_por_btu(equipment_btu: float) -> list[BudgetItem]:
+   |     ^^^^^^^^^^^^^^^^^^^^
+47 |     """
+48 |     Gera lista de materiais e servi├ºos proporcionais ├á capacidade t├®rmica.
+   |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+  --> routers\budgeting.py:95:50
+   |
+93 |         preco_total = num_unidades * PRECOS["equipamento_split_36k"]
+94 |         items.append(BudgetItem(
+95 |             name=f"Split Piso-Teto 36.000 BTU/h (├ù{num_unidades})",
+   |                                                  ^
+96 |             quantity=num_unidades, unit_price=PRECOS["equipamento_split_36k"],
+97 |             total=preco_total
+   |
+
+W293 Blank line contains whitespace
+  --> routers\documents.py:54:1
+   |
+52 |     Compila os dados do dimensionamento, c├ílculo e or├ºamento para
+53 |     preenchimento autom├ítico da ART no portal do CREA.
+54 |     
+   | ^^^^
+55 |     Inclui:
+56 |     - Dados de atividade e tipo de obra
+   |
+help: Remove whitespace from blank line
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\documents.py:97:65
+   |
+96 | @router.post("/memorial/{tipo}")
+97 | def generate_memorial(tipo: str, request: DocumentRequest, user=Depends(check_quota("generate_pdf_memorial"))):
+   |                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+98 |     data = {
+99 |         "title": f"Memorial de C├ílculo - {'Climatiza├º├úo' if tipo == 'hvac' else 'Aquecimento Solar'}",
+   |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\documents.py:97:73
+   |
+96 | @router.post("/memorial/{tipo}")
+97 | def generate_memorial(tipo: str, request: DocumentRequest, user=Depends(check_quota("generate_pdf_memorial"))):
+   |                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+98 |     data = {
+99 |         "title": f"Memorial de C├ílculo - {'Climatiza├º├úo' if tipo == 'hvac' else 'Aquecimento Solar'}",
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\documents.py:121:55
+    |
+120 | @router.post("/especificacao")
+121 | def generate_especificacao(request: SpecRequest, user=Depends(check_quota("generate_pdf_especificacao"))):
+    |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+122 |     data = {
+123 |         "title": "Especifica├º├úo de Equipamentos e Or├ºamento",
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\documents.py:121:63
+    |
+120 | @router.post("/especificacao")
+121 | def generate_especificacao(request: SpecRequest, user=Depends(check_quota("generate_pdf_especificacao"))):
+    |                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+122 |     data = {
+123 |         "title": "Especifica├º├úo de Equipamentos e Or├ºamento",
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\documents.py:143:62
+    |
+142 | @router.post("/laudo/{tipo}")
+143 | def generate_laudo(tipo: str, request: DocumentRequest, user=Depends(check_quota("generate_pdf_laudo"))):
+    |                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+144 |     data = {
+145 |         "title": f"Laudo T├®cnico de Engenharia - {'Climatiza├º├úo' if tipo == 'hvac' else 'Aquecimento Solar'}",
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\documents.py:143:70
+    |
+142 | @router.post("/laudo/{tipo}")
+143 | def generate_laudo(tipo: str, request: DocumentRequest, user=Depends(check_quota("generate_pdf_laudo"))):
+    |                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+144 |     data = {
+145 |         "title": f"Laudo T├®cnico de Engenharia - {'Climatiza├º├úo' if tipo == 'hvac' else 'Aquecimento Solar'}",
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\documents.py:167:73
+    |
+166 | @router.post("/relatorio_completo")
+167 | def generate_relatorio_completo(request: RelatorioCompletoRequest, user=Depends(check_quota("generate_pdf_relatorio_completo"))):
+    |                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+168 |     import datetime
+169 |     data = request.model_dump()
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\documents.py:167:81
+    |
+166 | @router.post("/relatorio_completo")
+167 | def generate_relatorio_completo(request: RelatorioCompletoRequest, user=Depends(check_quota("generate_pdf_relatorio_completo"))):
+    |                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+168 |     import datetime
+169 |     data = request.model_dump()
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\energy_efficiency.py:125:66
+    |
+124 | @router.post("/calculate_efficiency", response_model=EnergyEfficiencyOutput)
+125 | async def calculate_efficiency(data: EnergyEfficiencyInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+126 |     """
+127 |     Simulador de Efici├¬ncia Energ├®tica para estimar indicador (kWh/m┬▓.ano) e Ence.
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\energy_efficiency.py:125:74
+    |
+124 | @router.post("/calculate_efficiency", response_model=EnergyEfficiencyOutput)
+125 | async def calculate_efficiency(data: EnergyEfficiencyInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+126 |     """
+127 |     Simulador de Efici├¬ncia Energ├®tica para estimar indicador (kWh/m┬▓.ano) e Ence.
+    |
+
+RUF003 Comment contains ambiguous `ÔÇô` (EN DASH). Did you mean `-` (HYPHEN-MINUS)?
+  --> routers\feedback.py:19:30
+   |
+18 | class FeedbackCreate(BaseModel):
+19 |     rating: int           # 1ÔÇô5
+   |                              ^
+20 |     category: str = "sugestao"  # bug | sugestao | elogio
+21 |     message: str | None = None
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\feedback.py:53:19
+   |
+51 | def submit_feedback(
+52 |     data: FeedbackCreate,
+53 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+54 |     current_user: User = Depends(get_current_user),
+55 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\feedback.py:54:26
+   |
+52 |     data: FeedbackCreate,
+53 |     db: Session = Depends(get_db),
+54 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+55 | ):
+56 |     """Submit in-app feedback with star rating and optional message."""
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\feedback.py:74:55
+   |
+73 | @router.post("/beta_invite")
+74 | def beta_invite(data: BetaInviteCreate, db: Session = Depends(get_db)):
+   |                                                       ^^^^^^^^^^^^^^^
+75 |     """Public endpoint to register interest in the closed beta."""
+76 |     existing = db.query(BetaInvite).filter(BetaInvite.email == data.email).first()
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\feedback.py:96:19
+   |
+94 |     limit: int = 50,
+95 |     skip: int = 0,
+96 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+97 |     current_user: User = Depends(get_current_user),
+98 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\feedback.py:97:26
+   |
+95 |     skip: int = 0,
+96 |     db: Session = Depends(get_db),
+97 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+98 | ):
+99 |     """Admin: list all feedback submissions."""
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\feedback.py:107:19
+    |
+105 | @router.get("/admin/stats", response_model=FeedbackStats)
+106 | def feedback_stats(
+107 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+108 |     current_user: User = Depends(get_current_user),
+109 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\feedback.py:108:26
+    |
+106 | def feedback_stats(
+107 |     db: Session = Depends(get_db),
+108 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+109 | ):
+110 |     """Admin: aggregate feedback statistics."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\feedback.py:133:19
+    |
+131 | @router.get("/admin/beta_invites")
+132 | def list_beta_invites(
+133 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+134 |     current_user: User = Depends(get_current_user),
+135 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\feedback.py:134:26
+    |
+132 | def list_beta_invites(
+133 |     db: Session = Depends(get_db),
+134 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+135 | ):
+136 |     """Admin: list all beta invite registrations."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers\health.py:14:32
+   |
+13 | @router.get("/health")
+14 | def health_check(db: Session = Depends(get_db)):
+   |                                ^^^^^^^^^^^^^^^
+15 |     """
+16 |     Health check endpoint for load balancers and container orchestrators.
+   |
+
+W293 Blank line contains whitespace
+  --> routers\health.py:17:1
+   |
+15 |     """
+16 |     Health check endpoint for load balancers and container orchestrators.
+17 |     
+   | ^^^^
+18 |     Returns:
+19 |         - status: "ok" if everything is healthy
+   |
+help: Remove whitespace from blank line
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\hvac_complete.py:177:65
+    |
+176 | @router.post("/calculate_hvac_complete", response_model=HVACCompleteOutput)
+177 | async def calculate_hvac_complete(data: HVACCompleteInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+178 |     """
+179 |     C├ílculo de HVAC Completo: Carga T├®rmica (NBR 16401-1) + Ventila├º├úo (NBR 16401-3/ASHRAE 62.1) + Pr├®-sele├º├úo de Equipamentos e Dutos
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\hvac_complete.py:177:73
+    |
+176 | @router.post("/calculate_hvac_complete", response_model=HVACCompleteOutput)
+177 | async def calculate_hvac_complete(data: HVACCompleteInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+178 |     """
+179 |     C├ílculo de HVAC Completo: Carga T├®rmica (NBR 16401-1) + Ventila├º├úo (NBR 16401-3/ASHRAE 62.1) + Pr├®-sele├º├úo de Equipamentos e Dutos
+    |
+
+C901 `calculate` is too complex (11 > 10)
+  --> routers\simulation.py:80:15
+   |
+78 |         return validate_hvac_inputs(data)
+79 |
+80 |     async def calculate(self, data: ThermalInput) -> CalculationResult:
+   |               ^^^^^^^^^
+81 |         warnings = self.validate_inputs(data)
+   |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:150:53
+    |
+148 | ÔÇª     ),
+149 | ÔÇª     CalculationStep(
+150 | ÔÇª         step_name=f"Q_env: {data.area_m2}m┬▓ ├ù {fator_area_btu_m2} [BTU/h]",
+    |                                               ^
+151 | ÔÇª         formula="Area * Fator BTU/m2", inputs={"area": data.area_m2, "fator": fator_area_btu_m2}, result=round(carga_area, 2), unitÔÇª
+152 | ÔÇª     ),
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:162:58
+    |
+160 |             ),
+161 |             CalculationStep(
+162 |                 step_name=f"Q_ocp(s): {data.num_peoples} ├ù 600 [BTU/h]",
+    |                                                          ^
+163 |                 formula="pessoas * 600", inputs={"pessoas": data.num_peoples}, result=round(carga_pessoas_sensivel, 2), unit="BTU/h"
+164 |             ),
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:166:58
+    |
+164 |             ),
+165 |             CalculationStep(
+166 |                 step_name=f"Q_ocp(l): {data.num_peoples} ├ù 200 [BTU/h]",
+    |                                                          ^
+167 |                 formula="pessoas * 200", inputs={"pessoas": data.num_peoples}, result=round(carga_pessoas_latente, 2), unit="BTU/h"
+168 |             ),
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:170:54
+    |
+168 |             ),
+169 |             CalculationStep(
+170 |                 step_name=f"Q_ilum: {data.area_m2}m┬▓ ├ù 10W/m┬▓ ├ù 3.41 [BTU/h]",
+    |                                                      ^
+171 |                 formula="area * 10 * 3.41214", inputs={"area": data.area_m2}, result=round(carga_iluminacao, 2), unit="BTU/h"
+172 |             ),
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:170:63
+    |
+168 |             ),
+169 |             CalculationStep(
+170 |                 step_name=f"Q_ilum: {data.area_m2}m┬▓ ├ù 10W/m┬▓ ├ù 3.41 [BTU/h]",
+    |                                                               ^
+171 |                 formula="area * 10 * 3.41214", inputs={"area": data.area_m2}, result=round(carga_iluminacao, 2), unit="BTU/h"
+172 |             ),
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:174:58
+    |
+172 | ÔÇª     ),
+173 | ÔÇª     CalculationStep(
+174 | ÔÇª         step_name=f"Q_elec: {data.num_equipment} ├ù {data.watts_per_equipment}W ├ù 3.41 [BTU/h]",
+    |                                                    ^
+175 | ÔÇª         formula="equip * watts * 3.41214", inputs={"equip": data.num_equipment, "watts": data.watts_per_equipment}, result=round(caÔÇª
+176 | ÔÇª     ),
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:174:88
+    |
+172 | ÔÇª     ),
+173 | ÔÇª     CalculationStep(
+174 | ÔÇª         step_name=f"Q_elec: {data.num_equipment} ├ù {data.watts_per_equipment}W ├ù 3.41 [BTU/h]",
+    |                                                                                  ^
+175 | ÔÇª         formula="equip * watts * 3.41214", inputs={"equip": data.num_equipment, "watts": data.watts_per_equipment}, result=round(caÔÇª
+176 | ÔÇª     ),
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\simulation.py:183:52
+    |
+181 |             CalculationStep(
+182 |                 step_name="Fator de Seguran├ºa (+10%)",
+183 |                 formula="N/A", inputs={}, result=f"├ù {FATOR_SEGURANCA}", unit="adimensional"
+    |                                                    ^
+184 |             ),
+185 |             CalculationStep(
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\simulation.py:251:56
+    |
+250 | @router.post("/calculate_hvac", response_model=ThermalOutput)
+251 | async def calculate_hvac_load(data: ThermalInput, user=Depends(check_quota("run_simulation"))):
+    |                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+252 |     """
+253 |     C├ílculo de Carga T├®rmica de Conforto (AVAC/AC) ÔÇö ABNT NBR 16401-1/2.
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\simulation.py:251:64
+    |
+250 | @router.post("/calculate_hvac", response_model=ThermalOutput)
+251 | async def calculate_hvac_load(data: ThermalInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+252 |     """
+253 |     C├ílculo de Carga T├®rmica de Conforto (AVAC/AC) ÔÇö ABNT NBR 16401-1/2.
+    |
+
+RUF046 Value being cast to `int` is already an integer
+  --> routers\solar_heating.py:90:29
+   |
+89 |         # Quantidade de placas (Assumindo placa gen├®rica de 2.0 m┬▓)
+90 |         num_placas = max(1, int(round(area_corrigida / 2.0)))
+   |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+91 |         area_instalada = num_placas * 2.0
+   |
+help: Remove unnecessary `int` call
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\solar_heating.py:114:48
+    |
+112 |                 step_name="V_dia: Consumo [L/dia]",
+113 |                 formula="pessoas * consumo_pessoa", inputs={"pessoas": data.num_peoples, "consumo": data.consumo_por_pessoa},
+114 |                 result=f"{data.num_peoples} p. ├ù {data.consumo_por_pessoa} = {int(vol_diario)} L", unit="L/dia"
+    |                                                ^
+115 |             ),
+116 |             CalculationStep(
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\solar_heating.py:124:46
+    |
+122 |                 step_name="Q_dia: Calor [kcal/dia]",
+123 |                 formula="m * c * dt", inputs={"m": massa_agua, "c": CALOR_ESPECIFICO_AGUA, "dt": delta_t},
+124 |                 result=f"{int(vol_diario)}kg ├ù 1 ├ù {delta_t} = {int(carga_kcal_dia)} kcal", unit="kcal/dia"
+    |                                              ^
+125 |             ),
+126 |             CalculationStep(
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\solar_heating.py:124:50
+    |
+122 |                 step_name="Q_dia: Calor [kcal/dia]",
+123 |                 formula="m * c * dt", inputs={"m": massa_agua, "c": CALOR_ESPECIFICO_AGUA, "dt": delta_t},
+124 |                 result=f"{int(vol_diario)}kg ├ù 1 ├ù {delta_t} = {int(carga_kcal_dia)} kcal", unit="kcal/dia"
+    |                                                  ^
+125 |             ),
+126 |             CalculationStep(
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\solar_heating.py:139:65
+    |
+137 | ÔÇª         step_name="├ürea M├¡nima [m┬▓]",
+138 | ÔÇª         formula="(E * fracao) / (GHI * rend)", inputs={"E": energia_necessaria_kwh_dia, "fracao": FRACAO_SOLAR_ALVO, "ghi": ghi_diaÔÇª
+139 | ÔÇª         result=f"({round(energia_necessaria_kwh_dia,2)} ├ù {FRACAO_SOLAR_ALVO}) / ({ghi_dia} ├ù {rendimento}) = {round(area_necessariÔÇª
+    |                                                           ^
+140 | ÔÇª     ),
+141 | ÔÇª     CalculationStep(
+    |
+
+RUF001 String contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> routers\solar_heating.py:139:101
+    |
+137 | ÔÇª         step_name="├ürea M├¡nima [m┬▓]",
+138 | ÔÇª         formula="(E * fracao) / (GHI * rend)", inputs={"E": energia_necessaria_kwh_dia, "fracao": FRACAO_SOLAR_ALVO, "ghi": ghi_diaÔÇª
+139 | ÔÇª         result=f"({round(energia_necessaria_kwh_dia,2)} ├ù {FRACAO_SOLAR_ALVO}) / ({ghi_dia} ├ù {rendimento}) = {round(area_necessariÔÇª
+    |                                                                                               ^
+140 | ÔÇª     ),
+141 | ÔÇª     CalculationStep(
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\solar_heating.py:204:65
+    |
+203 | @router.post("/calculate_solar", response_model=SolarHeatingOutput)
+204 | async def calculate_solar_heating(data: SolarHeatingInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+205 |     """
+206 |     Dimensionamento de Aquecimento Solar de ├ügua Quente Sanit├íria (AQS)
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\solar_heating.py:204:73
+    |
+203 | @router.post("/calculate_solar", response_model=SolarHeatingOutput)
+204 | async def calculate_solar_heating(data: SolarHeatingInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+205 |     """
+206 |     Dimensionamento de Aquecimento Solar de ├ügua Quente Sanit├íria (AQS)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\ventilation.py:138:62
+    |
+137 | @router.post("/calculate_ventilation", response_model=VentilationOutput)
+138 | async def calculate_ventilation(data: VentilationInput, user=Depends(check_quota("run_simulation"))):
+    |                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+139 |     """
+140 |     C├ílculo de Vaz├úo de Ar Externo e Dimensionamento B├ísico de Dutos conforme NBR 16401-3.
+    |
+
+B008 Do not perform function call `check_quota` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers\ventilation.py:138:70
+    |
+137 | @router.post("/calculate_ventilation", response_model=VentilationOutput)
+138 | async def calculate_ventilation(data: VentilationInput, user=Depends(check_quota("run_simulation"))):
+    |                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+139 |     """
+140 |     C├ílculo de Vaz├úo de Ar Externo e Dimensionamento B├ísico de Dutos conforme NBR 16401-3.
+    |
+
+RUF013 PEP 484 prohibits implicit `Optional`
+  --> services\pdf_service.py:14:73
+   |
+12 |         self.env = Environment(loader=FileSystemLoader(templates_dir))
+13 |
+14 |     def generate(self, template_name: str, data: dict, output_filename: str = None) -> bytes:
+   |                                                                         ^^^
+15 |         """
+16 |         Gera um PDF processando o template com Jinja2 e adicionando cabe├ºalho/rodap├®.
+   |
+help: Convert to `T | None`
+
+W291 Trailing whitespace
+  --> services\pdf_service.py:20:85
+   |
+18 |         Para estruturar o pipeline arquitetural com reportlab puro e jinja2 (como pedido),
+19 |         vamos simular a renderiza├º├úo extraindo apenas texto ou usando a engine base.
+20 |         Como o requisito fala em 'base.html', usaremos Jinja p/ renderizar strings e 
+   |                                                                                     ^
+21 |         ReportLab para pintar o PDF final como um mock funcional de arquitetura.
+22 |         """
+   |
+help: Remove trailing whitespace
+
+RUF002 Docstring contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+  --> services\solar_service.py:19:37
+   |
+17 |      base das tabelas NBR 16401). O fator da tabela est├ítica ├® ent├úo escalado
+18 |      proporcionalmente:
+19 |        fator_local = fator_base_NBR ├ù (GHI_local / GHI_referencia_SP)
+   |                                     ^
+20 |      Onde fator_base_NBR = valor da tabela est├ítica NBR 16401 por orienta├º├úo.
+   |
+
+N803 Argument name `ghi_kWh_dia` should be lowercase
+   --> services\solar_service.py:148:27
+    |
+148 | def calcular_fator_btu_m2(ghi_kWh_dia: float, sun_exposure: str) -> float:
+    |                           ^^^^^^^^^^^^^^^^^^
+149 |     """
+150 |     Calcula o fator de carga t├®rmica (BTU/m┬▓) com base no GHI real da localidade.
+    |
+
+RUF002 Docstring contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> services\solar_service.py:157:56
+    |
+155 |         da orienta├º├úo solar ├® ent├úo ajustado proporcionalmente:
+156 |
+157 |             fator_local = fator_base_NBR[sun_exposure] ├ù (GHI_local / GHI_ref_SP)
+    |                                                        ^
+158 |
+159 |     Exemplos esperados (exposi├º├úo 'tardes', fator base=900 BTU/m┬▓):
+    |
+
+RUF002 Docstring contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> services\solar_service.py:160:41
+    |
+159 |     Exemplos esperados (exposi├º├úo 'tardes', fator base=900 BTU/m┬▓):
+160 |         Fortaleza, CE  (GHI=22.1) ÔåÆ 900 ├ù 22.1/17.0 Ôëê 1.170 BTU/m┬▓
+    |                                         ^
+161 |         S├úo Paulo, SP  (GHI=17.0) ÔåÆ 900 ├ù 1.0       = 900   BTU/m┬▓
+162 |         Porto Alegre   (GHI=16.7) ÔåÆ 900 ├ù 16.7/17.0 Ôëê 884   BTU/m┬▓
+    |
+
+RUF002 Docstring contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> services\solar_service.py:161:41
+    |
+159 |     Exemplos esperados (exposi├º├úo 'tardes', fator base=900 BTU/m┬▓):
+160 |         Fortaleza, CE  (GHI=22.1) ÔåÆ 900 ├ù 22.1/17.0 Ôëê 1.170 BTU/m┬▓
+161 |         S├úo Paulo, SP  (GHI=17.0) ÔåÆ 900 ├ù 1.0       = 900   BTU/m┬▓
+    |                                         ^
+162 |         Porto Alegre   (GHI=16.7) ÔåÆ 900 ├ù 16.7/17.0 Ôëê 884   BTU/m┬▓
+    |
+
+RUF002 Docstring contains ambiguous `├ù` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?
+   --> services\solar_service.py:162:41
+    |
+160 |         Fortaleza, CE  (GHI=22.1) ÔåÆ 900 ├ù 22.1/17.0 Ôëê 1.170 BTU/m┬▓
+161 |         S├úo Paulo, SP  (GHI=17.0) ÔåÆ 900 ├ù 1.0       = 900   BTU/m┬▓
+162 |         Porto Alegre   (GHI=16.7) ÔåÆ 900 ├ù 16.7/17.0 Ôëê 884   BTU/m┬▓
+    |                                         ^
+163 |
+164 |     Args:
+    |
+
+Found 93 errors.
+No fixes available (8 hidden fixes can be enabled with the `--unsafe-fixes` option).

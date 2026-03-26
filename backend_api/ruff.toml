@@ -1,0 +1,12 @@
+line-length = 100
+target-version = "py310"
+
+[lint]
+select = ["E", "F", "W", "I", "C90", "N", "UP", "B", "A", "PT", "SIM", "RUF"]
+ignore = ["E501", "B008", "C901", "RUF001", "RUF002", "RUF003", "B904", "E402", "RUF013", "N803"] # Desabilitar limite de linha muito restrito e regras do FastAPI
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

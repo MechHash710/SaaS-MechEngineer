@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{# ── 1. RESPONSABILIDADE TÉCNICA ─────────────────────────────────────── #}
+<div class="section-title">1. Responsabilidade Técnica</div>
+<table style="margin-bottom: 18pt; width:100%;">
+    <tr>
+        <td style="width: 35%; font-weight: bold; background: #F8FAFC; color:#1B2A4A;">Engenheiro Responsável:</td>
+        <td>{{ engineer_crea }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold; background: #F8FAFC; color:#1B2A4A;">Norma Principal:</td>
+        <td>{{ norma_referencia }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight: bold; background: #F8FAFC; color:#1B2A4A;">Localização da Obra:</td>
+        <td>{{ localizacao if localizacao else '—' }}</td>
+    </tr>
+</table>
+
+{# ── 2. RESULTADO PRINCIPAL ──────────────────────────────────────────── #}
+<div class="section-title">2. Resultado Principal do Dimensionamento</div>
+<div style="padding: 18pt; border: 1.5pt solid #2563EB; background: #EFF6FF; margin-bottom: 20pt; border-radius: 2pt;">
+    <div style="font-size: 9pt; color: #1E40AF; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5pt; margin-bottom: 6pt;">
+        Capacidade / Dimensão Calculada
+    </div>
+    <div style="font-size: 24pt; font-weight: bold; color: #1B2A4A; letter-spacing: -0.5pt;">
+        {{ equipment_btu }}
+    </div>
+    <div style="font-size: 8pt; color: #64748B; margin-top: 6pt; border-top: 0.5pt solid #BFDBFE; padding-top: 6pt;">
+        Valor obtido por aplicação direta das equações de transferência de calor fundamentais, validado segundo {{ norma_referencia }}.
+    </div>
+</div>
+
+{# ── 3. MEMÓRIA DE CÁLCULO ───────────────────────────────────────────── #}
+<div class="section-title">3. Memória de Cálculo Detalhada</div>
+<p style="font-size: 9pt; color: #64748B; margin-bottom: 15pt;">
+    Sequência lógica de equações com referências normativas para auditoria e emissão de ART.
+</p>
+
+{% if step_by_step %}
+    {% for name, info in step_by_step.items() %}
+    <div class="calculation-step">
+
+        {# Header da etapa #}
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 0.5pt solid #CBD5E1; padding-bottom: 6pt; margin-bottom: 8pt;">
+            <span style="font-weight: bold; color: #1B2A4A; font-size: 10pt;">{{ name }}</span>
+            {% if info.norm_reference %}
+            <span style="font-size: 7pt; color: #64748B; font-style: italic; padding: 2pt 5pt; background: #F1F5F9; border-radius: 2pt; white-space: nowrap; margin-left: 8pt;">
+                {{ info.norm_reference }}
+            </span>
+            {% endif %}
+        </div>
+
+        {# Equação #}
+        {% if info.formula and info.formula != 'N/A' %}
+        <div class="equation">
+            <span style="color: #94A3B8; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.5pt; font-style: normal; display: block; margin-bottom: 3pt;">Equação:</span>
+            {{ info.formula }}
+        </div>
+        {% endif %}
+
+        {# Resultado #}
+        <div style="text-align: right; margin-top: 6pt; display: flex; justify-content: flex-end; align-items: baseline; gap: 8pt;">
+            <span style="font-size: 8pt; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.3pt;">Resultado =</span>
+            <span style="font-weight: bold; color: #2563EB; font-size: 13pt; font-family: 'Courier New', monospace;">
+                {{ info.value if info.value is defined else info }}
+            </span>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p style="color:#64748B; font-style:italic;">Nenhum passo detalhado fornecido para este cálculo.</p>
+{% endif %}
+
+{# ── 4. DADOS DE ENTRADA ─────────────────────────────────────────────── #}
+{% if constants_used %}
+<div class="section-title" style="margin-top: 20pt;">4. Premissas e Coeficientes Adotados</div>
+<table style="width: 100%; margin-bottom: 20pt;">
+    <thead>
+        <tr>
+            <th style="text-align: left; background: #F1F5F9; color: #475569; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3pt; padding: 6pt 8pt;">Parâmetro de Projeto</th>
+            <th style="text-align: right; background: #F1F5F9; color: #475569; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3pt; padding: 6pt 8pt;">Valor Adotado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key, value in constants_used.items() %}
+        <tr>
+            <td style="width: 65%; padding: 5pt 8pt; font-size: 9pt;">{{ key }}</td>
+            <td style="text-align: right; padding: 5pt 8pt; font-size: 9pt; font-family: 'Courier New', monospace; color: #1B2A4A; font-weight: bold;">{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{# ── 5. REFERÊNCIAS NORMATIVAS ───────────────────────────────────────── #}
+{% if references %}
+<div class="section-title">5. Embasamento Normativo</div>
+<ul style="font-size: 9pt; color: #334155; line-height: 2.0; margin-left: 15pt;">
+    {% for ref in references %}
+    <li>{{ ref }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{# ── ASSINATURA ──────────────────────────────────────────────────────── #}
+<div style="margin-top: 50pt; padding-top: 20pt; border-top: 0.5pt solid #CBD5E1; display: flex; justify-content: flex-end;">
+    <div style="text-align: center; width: 220pt;">
+        <div style="border-top: 1pt solid #0F172A; padding-top: 6pt; margin-top: 40pt;">
+            <div style="font-weight: bold; font-size: 10pt; color: #1B2A4A;">{{ engineer_crea }}</div>
+            <div style="font-size: 8pt; color: #64748B; margin-top: 2pt;">Engenheiro Responsável — CREA</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

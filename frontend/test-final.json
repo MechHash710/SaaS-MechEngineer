@@ -1,0 +1,332 @@
+﻿{
+  "config": {
+    "configFile": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\playwright.config.ts",
+    "rootDir": "C:/Users/Randhy/Desktop/Projects/Test Agent/frontend/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Randhy/Desktop/Projects/Test Agent/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/Randhy/Desktop/Projects/Test Agent/frontend/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev -- --port 5174",
+      "url": "http://localhost:5174",
+      "reuseExistingServer": true,
+      "timeout": 60000,
+      "stdout": "pipe",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "main-flow.spec.ts",
+      "file": "main-flow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "End-to-End Flow: Auth -> Simulation -> PDF",
+          "file": "main-flow.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "1 - Login page loads and shows correct fields",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 449,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:57:09.549Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-e10383488590a2be72a5",
+              "file": "main-flow.spec.ts",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "2 - Register page loads and shows correct form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 368,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:57:10.310Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-7ba2256556a21383f4d4",
+              "file": "main-flow.spec.ts",
+              "line": 14,
+              "column": 3
+            },
+            {
+              "title": "3 - Landing page loads correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 363,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:57:10.689Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-fc0c1f594005e8bb1249",
+              "file": "main-flow.spec.ts",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "4 - Register a new user and access dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3431,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:57:11.065Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-92e73c57d987c2945f5a",
+              "file": "main-flow.spec.ts",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "5 - HVAC Simulation form is accessible via the simulator tab",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 19551,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Sair\")')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Sair\")')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Sair\")')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Sair\")')\u001b[22m\n\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:83:59",
+                        "location": {
+                          "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                          "column": 59,
+                          "line": 83
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 81 |\u001b[39m     \u001b[90m// Wait for the auth check to complete (the main app renders after /me API call)\u001b[39m\n \u001b[90m 82 |\u001b[39m     \u001b[90m// The \"Sair\" (logout) button confirms the user is authenticated and app is ready\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 83 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'button:has-text(\"Sair\")'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 84 |\u001b[39m     \n \u001b[90m 85 |\u001b[39m     \u001b[90m// Click the HVAC module nav tab\u001b[39m\n \u001b[90m 86 |\u001b[39m     \u001b[90m// The button may be inside an overflow-x-auto container ÔÇö use scrollIntoViewIfNeeded\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                            "column": 59,
+                            "line": 83
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Sair\")')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Sair\")')\u001b[22m\n\n\n  81 |     // Wait for the auth check to complete (the main app renders after /me API call)\n  82 |     // The \"Sair\" (logout) button confirms the user is authenticated and app is ready\n> 83 |     await expect(page.locator('button:has-text(\"Sair\")')).toBeVisible({ timeout: 15000 });\n     |                                                           ^\n  84 |     \n  85 |     // Click the HVAC module nav tab\n  86 |     // The button may be inside an overflow-x-auto container ÔÇö use scrollIntoViewIfNeeded\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:83:59"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-16T01:57:14.506Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\test-results\\main-flow-End-to-End-Flow--412fa-sible-via-the-simulator-tab-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                        "column": 59,
+                        "line": 83
+                      }
+                    },
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 19712,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Sair\")')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Sair\")')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Sair\")')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Sair\")')\u001b[22m\n\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:83:59",
+                        "location": {
+                          "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                          "column": 59,
+                          "line": 83
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 81 |\u001b[39m     \u001b[90m// Wait for the auth check to complete (the main app renders after /me API call)\u001b[39m\n \u001b[90m 82 |\u001b[39m     \u001b[90m// The \"Sair\" (logout) button confirms the user is authenticated and app is ready\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 83 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'button:has-text(\"Sair\")'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 84 |\u001b[39m     \n \u001b[90m 85 |\u001b[39m     \u001b[90m// Click the HVAC module nav tab\u001b[39m\n \u001b[90m 86 |\u001b[39m     \u001b[90m// The button may be inside an overflow-x-auto container ÔÇö use scrollIntoViewIfNeeded\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                            "column": 59,
+                            "line": 83
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Sair\")')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Sair\")')\u001b[22m\n\n\n  81 |     // Wait for the auth check to complete (the main app renders after /me API call)\n  82 |     // The \"Sair\" (logout) button confirms the user is authenticated and app is ready\n> 83 |     await expect(page.locator('button:has-text(\"Sair\")')).toBeVisible({ timeout: 15000 });\n     |                                                           ^\n  84 |     \n  85 |     // Click the HVAC module nav tab\n  86 |     // The button may be inside an overflow-x-auto container ÔÇö use scrollIntoViewIfNeeded\n    at C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts:83:59"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-03-16T01:57:35.592Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\test-results\\main-flow-End-to-End-Flow--412fa-sible-via-the-simulator-tab-chromium-retry1\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Randhy\\Desktop\\Projects\\Test Agent\\frontend\\e2e\\main-flow.spec.ts",
+                        "column": 59,
+                        "line": 83
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "4e87a89092cd4aa0e90c-d7356546e26d94299b62",
+              "file": "main-flow.spec.ts",
+              "line": 64,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-03-16T01:57:06.092Z",
+    "duration": 50238.42,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

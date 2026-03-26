@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <h2>1. Especificação Técnica do Equipamento Recomendado</h2>
+    <p><strong>Configuração:</strong> {{ equipment_spec }}</p>
+    <p><strong>Área / Aplicação:</strong> {{ application }}</p>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <h2>2. Estimativa Orçamentária Básica (BOM)</h2>
+    <table border="1" cellpadding="5" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th align="left">Descrição do Item</th>
+                <th align="left">Quantidade</th>
+                <th align="left">Preço Unitário (R$)</th>
+                <th align="left">Total (R$)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if items %}
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>R$ {{ "%.2f"|format(item.unit_price) }}</td>
+                    <td>R$ {{ "%.2f"|format(item.total) }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4">Nenhum item orçado.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 15px; text-align: right;">
+        <h3><strong>Custo Total Estimado: R$ {{ "%.2f"|format(total_cost) }}</strong></h3>
+    </div>
+</div>
+
+<div style="margin-top: 40px; text-align: center;">
+    <p><em>Este orçamento é uma estimativa de viabilidade técnica.</em></p>
+    <p>Sistema Web Engenharia | Documento Não Contratual</p>
+</div>
+{% endblock %}

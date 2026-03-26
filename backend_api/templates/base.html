@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        /* Inlining base styles for WeasyPrint reliability */
+        {% include "../.agent/engineering-design-agent/assets/base_document.css" ignore missing %}
+        
+        @page {
+            size: A4;
+            margin: 2.5cm 1.5cm 2.5cm 1.5cm;
+            @bottom-right {
+                content: "Página " counter(page) " de " counter(pages);
+                font-family: 'Liberation Sans', sans-serif;
+                font-size: 8pt;
+                color: #64748B;
+            }
+            @bottom-left {
+                content: "Sistema de Engenharia Térmica v1.0";
+                font-family: 'Liberation Sans', sans-serif;
+                font-size: 7pt;
+                color: #94A3B8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table style="border: none; margin-bottom: 0;">
+            <tr>
+                <td style="border: none; padding: 0; width: 60%;">
+                    <div class="title">{{ title }}</div>
+                    <div style="font-size: 9pt; color: #64748B; margin-top: 4pt;">
+                        ID: {{ doc_id if doc_id else 'REF-' ~ timestamp }} | Emissão: {{ date if date else '22/03/2026' }}
+                    </div>
+                </td>
+                <td style="border: none; padding: 0; text-align: right; vertical-align: top;">
+                    <div style="font-weight: bold; font-size: 10pt; color: #1B2A4A;">{{ company if company else 'EMPRESA DE ENGENHARIA PRO' }}</div>
+                    <div style="font-size: 8pt; color: #64748B;">CNPJ: 00.000.000/0001-00</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="margin-bottom: 20pt; padding: 10pt; background: #F8FAFC; border: 0.5pt solid #E2E8F0; font-size: 9pt;">
+        <table style="border: none; margin: 0;">
+            <tr>
+                <td style="border: none; padding: 2pt 0; font-weight: bold; width: 15%;">PROJETO:</td>
+                <td style="border: none; padding: 2pt 0;">{{ projeto if projeto else 'NOME DO PROJETO' }}</td>
+            </tr>
+            <tr>
+                <td style="border: none; padding: 2pt 0; font-weight: bold;">LOCAL:</td>
+                <td style="border: none; padding: 2pt 0;">{{ localizacao if localizacao else 'ENDEREÇO DA OBRA' }}</td>
+            </tr>
+            <tr>
+                <td style="border: none; padding: 2pt 0; font-weight: bold;">COORDENADOR:</td>
+                <td style="border: none; padding: 2pt 0;">{{ engineer_crea if engineer_crea else 'ENG. RESPONSÁVEL' }}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <div class="footer" style="margin-top: 30pt; border-top: 1pt solid #1B2A4A; padding-top: 10pt;">
+        <div style="font-size: 8pt; color: #475569; font-style: italic;">
+            Este documento é um memorial de cálculo técnico automatizado. As premissas adotadas seguem as normas {{ norma_referencia if norma_referencia else 'ABNT/ASHRAE' }} vigentes.
+        </div>
+    </div>
+</body>
+</html>

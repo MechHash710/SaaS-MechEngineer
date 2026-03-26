@@ -1,0 +1,19 @@
+Method,Name,Error,Occurrences
+POST,2_Vent_Sim,HTTPError('429 Client Error: Too Many Requests for url: 2_Vent_Sim'),41
+POST,2_Solar_Sim,HTTPError('404 Client Error: Not Found for url: 2_Solar_Sim'),4
+POST,1_HVAC_Simulation,HTTPError('500 Server Error: Internal Server Error for url: 1_HVAC_Simulation'),5
+POST,2_HVAC_Sim,HTTPError('429 Client Error: Too Many Requests for url: 2_HVAC_Sim'),38
+POST,1_Solar_Simulation,"ConnectionResetError(10054, 'Foi forçado o cancelamento de uma conexão existente pelo host remoto', None, 10054, None)",5
+POST,2_Eff_Sim,HTTPError('404 Client Error: Not Found for url: 2_Eff_Sim'),1
+POST,2_Vent_Sim,HTTPError('404 Client Error: Not Found for url: 2_Vent_Sim'),5
+POST,/api/v1/auth/register,HTTPError('429 Client Error: Too Many Requests for url: /api/v1/auth/register'),25
+POST,/api/v1/auth/login,HTTPError('400 Client Error: Bad Request for url: /api/v1/auth/login'),15
+POST,2_Eff_Sim,HTTPError('429 Client Error: Too Many Requests for url: 2_Eff_Sim'),44
+POST,2_HVAC_Sim,HTTPError('500 Server Error: Internal Server Error for url: 2_HVAC_Sim'),2
+POST,2_Solar_Sim,"ConnectionResetError(10054, 'Foi forçado o cancelamento de uma conexão existente pelo host remoto', None, 10054, None)",1
+POST,2_Vent_Sim,"ConnectionResetError(10054, 'Foi forçado o cancelamento de uma conexão existente pelo host remoto', None, 10054, None)",1
+POST,/api/v1/auth/login,HTTPError('429 Client Error: Too Many Requests for url: /api/v1/auth/login'),53
+POST,1_HVAC_Simulation,HTTPError('429 Client Error: Too Many Requests for url: 1_HVAC_Simulation'),43
+POST,1_Generate_PDF,HTTPError('429 Client Error: Too Many Requests for url: 1_Generate_PDF'),49
+POST,2_Solar_Sim,HTTPError('429 Client Error: Too Many Requests for url: 2_Solar_Sim'),40
+POST,1_Solar_Simulation,HTTPError('429 Client Error: Too Many Requests for url: 1_Solar_Simulation'),44
