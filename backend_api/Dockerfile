@@ -32,5 +32,5 @@ RUN find . -type d -name __pycache__ -exec rm -r {} + || true
 # Expose port
 EXPOSE 8000
 
-# Start Gunicorn with Uvicorn workers
-CMD ["gunicorn", "main:app", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+# Start Gunicorn with Uvicorn workers and dynamic port binding
+CMD sh -c "gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8000}"
