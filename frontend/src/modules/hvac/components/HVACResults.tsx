@@ -27,13 +27,8 @@ export const HVACResults: React.FC<HVACResultsProps> = ({ result, isLoading, onG
     { name: 'Equip/Ilum', value: Math.round(result.total_btu_h * 0.25) },
   ];
 
-  // Alternativas mockadas baseadas no sugerido
-  const baseCapacity = result.total_btu_h;
-  const alternatives = [
-    { brand: 'Daikin Advance', type: 'Hi-Wall Inverter', capacity: result.suggested_equipment, efficiency: 'A (Cop 3.8)', price: 'R$ 3.500' },
-    { brand: 'LG Dual Inverter', type: 'Hi-Wall Voice', capacity: result.suggested_equipment, efficiency: 'A (Cop 3.5)', price: 'R$ 3.100' },
-    { brand: 'Midea Xtreme', type: 'Hi-Wall Inverter', capacity: baseCapacity > 18000 ? '24000 BTU/h' : '18000 BTU/h', efficiency: 'B (Cop 3.1)', price: 'R$ 2.800' },
-  ];
+  // Alternativas baseadas no backend (se disponível) ou fallback vazio
+  const alternatives = result.recommended_options || [];
 
   const getABNTBadge = (param: string) => {
     // Basic mock check: ideally validation comes from backend T27
@@ -137,35 +132,56 @@ export const HVACResults: React.FC<HVACResultsProps> = ({ result, isLoading, onG
           </Card>
 
           {/* Comparativo de Equipamentos */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Equipamentos Compatíveis (Estimativa)</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto rounded-lg border border-slate-200">
-                <table className="w-full text-sm text-left whitespace-nowrap">
-                  <thead className="bg-slate-50 text-slate-700 font-medium border-b border-slate-200">
-                    <tr>
-                      <th className="px-4 py-3">Equipamento</th>
-                      <th className="px-4 py-3">Capacidade</th>
-                      <th className="px-4 py-3">Eficiência INMETRO</th>
-                      <th className="px-4 py-3">Preço Médio</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {alternatives.map((alt, i) => (
-                      <tr key={i} className="hover:bg-slate-50">
-                        <td className="px-4 py-3 font-medium text-slate-900">{alt.brand} <span className="text-slate-500 text-xs block">{alt.type}</span></td>
-                        <td className="px-4 py-3 text-slate-600">{alt.capacity}</td>
-                        <td className="px-4 py-3 text-slate-600">{alt.efficiency}</td>
-                        <td className="px-4 py-3 text-slate-900 font-semibold">{alt.price}</td>
+          {alternatives.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Equipamentos Recomendados (Estimativa)</CardTitle>
+                <CardDescription>Principais fornecedores disponíveis no mercado para a carga calculada.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto rounded-lg border border-slate-200">
+                  <table className="w-full text-sm text-left">
+                    <thead className="bg-slate-50 text-slate-700 font-medium border-b border-slate-200">
+                      <tr>
+                        <th className="px-4 py-3">Equipamento</th>
+                        <th className="px-4 py-3">Capacidade</th>
+                        <th className="px-4 py-3">Eficiência INMETRO</th>
+                        <th className="px-4 py-3">Preço Médio</th>
+                        <th className="px-4 py-3"></th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 whitespace-nowrap">
+                      {alternatives.map((alt, i) => (
+                        <tr key={i} className="hover:bg-slate-50 transition-colors">
+                          <td className="px-4 py-3 font-medium text-slate-900">
+                            {alt.brand_model}
+                            <span className="text-slate-500 text-xs block font-normal">{alt.type_desc}</span>
+                          </td>
+                          <td className="px-4 py-3 text-slate-600">{alt.capacity}</td>
+                          <td className="px-4 py-3 text-slate-600">
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${alt.efficiency.includes('7.') ? 'bg-green-100 text-green-800' : alt.efficiency.includes('6.') ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}`}>
+                              {alt.efficiency}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-slate-900 font-semibold">{alt.price_estimate}</td>
+                          <td className="px-4 py-3 text-right">
+                             <a 
+                               href={alt.buy_link} 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               className="inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-none transition-colors"
+                             >
+                               Ver Loja
+                             </a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* LAYER 3: Call to Action for Detailed Memorial */}
           <Card>

@@ -1,8 +1,20 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('End-to-End Flow: Auth -> Simulation -> PDF', () => {
-  const testEmail = 'engenheiro@teste.com';
   const testPassword = 'senha123!';
+
+  test.beforeEach(async ({ page }) => {
+    // Mock APIs to safely test the Frontend flow without depending on the real Backend
+    await page.route('**/auth/register', async (route) => {
+      await route.fulfill({ status: 201, json: { id: 1, email: 'mock@test.com' } });
+    });
+    await page.route('**/auth/login', async (route) => {
+      await route.fulfill({ status: 200, json: { access_token: 'fake', token_type: 'bearer' } });
+    });
+    await page.route('**/auth/me', async (route) => {
+      await route.fulfill({ status: 200, json: { email: 'mock@test.com', name: 'Tester' } });
+    });
+  });
 
   test('1 - Login page loads and shows correct fields', async ({ page }) => {
     await page.goto('/?mode=login');
@@ -27,69 +39,65 @@ test.describe('End-to-End Flow: Auth -> Simulation -> PDF', () => {
 
   test('4 - Register a new user and access dashboard', async ({ page }) => {
     const uniqueEmail = `playwright_${Date.now()}@test.com`;
-    
-    // Register using the form
+
     await page.goto('/?mode=register');
     await page.fill('input[name="name"]', 'Playwright Tester');
     await page.fill('input[name="email"]', uniqueEmail);
     await page.fill('input[name="password"]', testPassword);
     await page.fill('input[name="confirmPassword"]', testPassword);
     await page.click('button[type="submit"]');
-    
-    // After registration + auto-login, redirects to onboarding or main app
-    // Wait a bit for the API calls and redirect
-    await page.waitForTimeout(3000);
-    
-    // Should no longer be on the register page
+
+    // Wait for redirect away from register page (onboarding or main app)
+    await Promise.race([
+      page.waitForURL('**/onboarding**', { timeout: 10000 }),
+      page.waitForURL((url) => !url.search.includes('mode=register'), { timeout: 10000 }),
+    ]).catch(() => {
+      // Registration may have failed (e.g. duplicate email in test DB) — check for error
+    });
+
     const currentUrl = page.url();
     const isOnRegisterPage = currentUrl.includes('mode=register');
-    
-    // Either we got redirect to onboarding or we're on main app
+
     if (!isOnRegisterPage) {
-      // Registration worked! Navigate to main app
       await page.goto('/');
-      // If logged in, should see the main app buttons after loading
-      await page.waitForTimeout(2000);
-      // Should be able to see Sair (logout) button since we're authenticated
-      const logoutBtn = page.locator('button:has-text("Sair")');
-      await expect(logoutBtn).toBeVisible({ timeout: 10000 });
+      // Auth check completes when the logout button is visible
+      await expect(page.locator('button:has-text("Sair")')).toBeVisible({ timeout: 15000 });
     } else {
-      // Registration failed - likely user already exists or API error
-      // Still passes as a partial test - page loaded correctly
-      const errorMessage = page.locator('.bg-red-50');
-      await expect(errorMessage).toBeVisible({ timeout: 3000 });
+      // Registration failed — an error banner should be visible
+      await expect(page.locator('.bg-red-50')).toBeVisible({ timeout: 5000 });
     }
   });
 
   test('5 - HVAC Simulation form is accessible via the simulator tab', async ({ page }) => {
     const uniqueEmail = `playwright2_${Date.now()}@test.com`;
-    
-    // Register & login
+
+    // Register & auto-login
     await page.goto('/?mode=register');
     await page.fill('input[name="name"]', 'HVAC Tester');
     await page.fill('input[name="email"]', uniqueEmail);
     await page.fill('input[name="password"]', testPassword);
     await page.fill('input[name="confirmPassword"]', testPassword);
     await page.click('button[type="submit"]');
-    
-    // Wait for registration & auto-login to complete (redirects to onboarding)
-    await page.waitForTimeout(4000);
-    
-    // Skip onboarding — navigate directly to the main app
+
+    // Wait for redirect away from register (onboarding or main app)
+    await Promise.race([
+      page.waitForURL('**/onboarding**', { timeout: 10000 }),
+      page.waitForURL((url) => !url.search.includes('mode=register'), { timeout: 10000 }),
+    ]).catch(() => {});
+
+    // Navigate directly to main app (skips onboarding if redirected there)
     await page.goto('/');
-    
-    // Wait for the auth check to complete (the main app renders after /me API call)
-    // The "Sair" (logout) button confirms the user is authenticated and app is ready
+
+    // Auth check complete when logout button is visible
     await expect(page.locator('button:has-text("Sair")')).toBeVisible({ timeout: 15000 });
-    
-    // Click the HVAC module nav tab
-    // The button may be inside an overflow-x-auto container — use scrollIntoViewIfNeeded
+
+    // Navigate to HVAC module tab
     const hvacBtn = page.locator('button', { hasText: 'Carga Térmica AVAC' });
     await hvacBtn.scrollIntoViewIfNeeded();
     await expect(hvacBtn).toBeVisible({ timeout: 10000 });
     await hvacBtn.click();
-    
-    // Verify the HVAC form is shown with its input fields
+
+    // HVAC form must render with its primary input
     await expect(page.locator('input[name="area_m2"]')).toBeVisible({ timeout: 15000 });
   });
 });

@@ -62,10 +62,22 @@ app = FastAPI(
     ],
 )
 
+from core.config import settings
+import sentry_sdk
+
+if settings.SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=settings.SENTRY_DSN,
+        traces_sample_rate=0.1
+    )
+
+# Parse comma-separated CORS origins from ENV variables
+origins = [origin.strip() for origin in settings.CORS_ORIGINS.split(",")]
+
 # Configuração de CORS (Permitir acesso do Frontend)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Em produção, especifique as URLs reais (ex: ["http://localhost:3000"])
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

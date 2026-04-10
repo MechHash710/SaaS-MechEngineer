@@ -13,10 +13,20 @@ export interface SimulatorData {
   localizacao: string;
 }
 
+export interface ProductOption {
+  brand_model: string;
+  type_desc: string;
+  capacity: string;
+  efficiency: string;
+  price_estimate: string;
+  buy_link: string;
+}
+
 export interface SimulatorResponse {
   total_btu_h: number;
   total_watts: number;
   suggested_equipment: string;
+  recommended_options?: ProductOption[];
   step_by_step: Record<string, string | number>;
   warnings?: ValidationAlert[];
   constants_used?: Record<string, string | number>;

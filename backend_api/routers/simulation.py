@@ -61,10 +61,20 @@ class ThermalInput(BaseModel):
     localizacao: str = ""  # Ex: "São Paulo, SP" — opcional
 
 
+class ProductOption(BaseModel):
+    brand_model: str
+    type_desc: str
+    capacity: str
+    efficiency: str
+    price_estimate: str
+    buy_link: str
+
+
 class ThermalOutput(BaseModel):
     total_btu_h: float
     total_watts: float
     suggested_equipment: str
+    recommended_options: list[ProductOption] = []
     step_by_step: dict
     warnings: list[ValidationAlert] = []  # Alertas de validação para o engenheiro
     constants_used: dict = {}  # Coeficientes extraídos das normas
@@ -72,6 +82,59 @@ class ThermalOutput(BaseModel):
 
 
 # ─── Calculador Modular ──────────────────────────────────────────────────────
+
+# Tabela dinâmica de equipamentos de mercado (Março 2026)
+def get_dynamic_equipment(btu_capacity: int, total_load: float) -> list[ProductOption]:
+    # Formatação helper
+    def build_options(c_str: str, p_lg: str, p_samsung: str, p_midea: str, p_budget: str, idrs_lg="6.0+", idrs_sami="7.5+", idrs_mid="5.5+", idrs_bud="5.5", cop_lg="3.5", cop_sami="4.0", cop_mid="3.3", cop_bud="3.2", budget_brand="Aufit (Grupo Midea)"):
+        return [
+            ProductOption(brand_model="Samsung WindFree Connect", type_desc="Hi-Wall Inverter (Premium)", capacity=c_str, efficiency=f"A (IDRS {idrs_sami} | COP {cop_sami})", price_estimate=p_samsung, buy_link=f"https://www.frigelar.com.br/busca?q=samsung+windfree+{btu_capacity}+inverter"),
+            ProductOption(brand_model="LG Dual Inverter Voice +AI", type_desc="Hi-Wall Inverter (Tecnologia)", capacity=c_str, efficiency=f"A (IDRS {idrs_lg} | COP {cop_lg})", price_estimate=p_lg, buy_link=f"https://www.casasbahia.com.br/ar-condicionado-lg-dual-inverter-{btu_capacity}/b"),
+            ProductOption(brand_model="Midea AirVolution / Xtreme", type_desc="Hi-Wall Inverter (Robusto)", capacity=c_str, efficiency=f"A (IDRS {idrs_mid} | COP {cop_mid})", price_estimate=p_midea, buy_link=f"https://www.frigelar.com.br/busca?q=midea+inverter+{btu_capacity}"),
+            ProductOption(brand_model=budget_brand, type_desc="Hi-Wall Inverter (Custo-Benefício)", capacity=c_str, efficiency=f"A (IDRS {idrs_bud} | COP {cop_bud})", price_estimate=p_budget, buy_link=f"https://www.casasbahia.com.br/ar-condicionado-inverter-{btu_capacity}/b")
+        ]
+
+    if btu_capacity <= 9000:
+        return build_options("1x 9.000 BTU/h", "R$ 1.692", "R$ 1.849", "R$ 1.649", "R$ 1.319")
+    elif btu_capacity <= 12000:
+        return build_options("1x 12.000 BTU/h", "R$ 2.184", "R$ 1.991", "R$ 1.789", "R$ 1.743")
+    elif btu_capacity <= 18000:
+        return build_options("1x 18.000 BTU/h", "R$ 3.134", "R$ 3.569", "R$ 3.172", "R$ 2.499", "TCL / Philco Inverter")
+    elif btu_capacity <= 24000:
+        return build_options("1x 24.000 BTU/h", "R$ 4.074", "R$ 4.299", "R$ 4.369", "R$ 3.199", "TCL Inverter")
+    elif btu_capacity <= 30000:
+        return [
+            ProductOption(brand_model="Midea Xtreme Save Connect", type_desc="Hi-Wall Inverter", capacity="1x 30.000 BTU/h", efficiency="A (IDRS 6.0 | COP 3.4)", price_estimate="R$ 6.934", buy_link="https://www.leveros.com.br/busca?q=ar+condicionado+30000+btu+inverter+midea"),
+            ProductOption(brand_model="LG Dual Inverter", type_desc="Hi-Wall Inverter", capacity="1x 30.000 BTU/h", efficiency="A (IDRS 5.8 | COP 3.3)", price_estimate="R$ 7.100", buy_link="https://www.leveros.com.br/busca?q=lg+30000+inverter")
+        ]
+    elif btu_capacity <= 36000:
+        return [
+            ProductOption(brand_model="LG Split Teto Inverter Wi-Fi", type_desc="Piso Teto Inverter", capacity="1x 36.000 BTU/h", efficiency="A (COP 3.4)", price_estimate="R$ 7.789", buy_link="https://www.leveros.com.br/busca?q=lg+teto+36000+inverter"),
+            ProductOption(brand_model="Midea Teto Inverter Connect", type_desc="Piso Teto Inverter", capacity="1x 36.000 BTU/h", efficiency="A (COP 3.3)", price_estimate="R$ 7.979", buy_link="https://www.leveros.com.br/busca?q=midea+teto+36000+inverter"),
+            ProductOption(brand_model="Samsung Cassete 4 Vias", type_desc="Cassete Inverter", capacity="1x 36.000 BTU/h", efficiency="A (COP 3.8)", price_estimate="R$ 9.949", buy_link="https://www.webcontinental.com.br/busca?q=samsung+cassete+36000+windfree"),
+            ProductOption(brand_model="Elgin Eco Logic", type_desc="Piso Teto Inverter", capacity="1x 36.000 BTU/h", efficiency="A (COP 3.2)", price_estimate="R$ 6.500", buy_link="https://www.frigelar.com.br/busca?q=elgin+teto+36000")
+        ]
+    elif btu_capacity <= 48000:
+         return [
+            ProductOption(brand_model="Samsung Cassete WindFree", type_desc="Cassete Inverter", capacity="1x 48.000 BTU/h", efficiency="A", price_estimate="R$ 10.499", buy_link="https://www.webcontinental.com.br/busca?q=samsung+cassete+48000"),
+            ProductOption(brand_model="Midea Teto Inverter", type_desc="Piso Teto Inverter", capacity="1x 48.000 BTU/h", efficiency="A", price_estimate="R$ 8.900", buy_link="https://www.frigelar.com.br/busca?q=midea+teto+48000+inverter"),
+            ProductOption(brand_model="LG Split Teto Inverter", type_desc="Piso Teto Inverter", capacity="1x 48.000 BTU/h", efficiency="A", price_estimate="R$ 9.500", buy_link="https://www.leveros.com.br/busca?q=lg+teto+48000+inverter")
+        ]
+    elif btu_capacity <= 60000:
+         return [
+            ProductOption(brand_model="Midea / Carrier Teto", type_desc="Piso Teto Inverter", capacity="1x 60.000 BTU/h", efficiency="A", price_estimate="R$ 9.999", buy_link="https://www.webcontinental.com.br/busca?q=midea+teto+60000"),
+            ProductOption(brand_model="LG Split Teto Wi-Fi", type_desc="Piso Teto Inverter", capacity="1x 60.000 BTU/h", efficiency="A", price_estimate="R$ 12.064", buy_link="https://www.leveros.com.br/busca?q=lg+teto+60000"),
+            ProductOption(brand_model="Gree Eco", type_desc="Piso Teto (Custo-Benefício)", capacity="1x 60.000 BTU/h", efficiency="B", price_estimate="R$ 8.500", buy_link="https://www.frigelar.com.br/busca?q=gree+teto+60000")
+        ]
+    else:
+        # Acima de 60k, sugerimos multi-split VRF ou múltiplos equipamentos
+        num_36 = int(total_load // 36000)
+        num_60 = int(total_load // 60000)
+        return [
+            ProductOption(brand_model="Sistema Multi-Split VRF", type_desc="Central Inverter", capacity=f"Total: {total_load:,.0f} BTU/h", efficiency="A", price_estimate="Sob Consulta", buy_link="#"),
+            ProductOption(brand_model="Múltiplos Midea Teto", type_desc="Piso Teto Inverter", capacity=f"{max(2, num_60+1)}x 60.000 BTU/h", efficiency="A", price_estimate="Sob Consulta", buy_link="https://www.webcontinental.com.br/busca?q=midea+teto+60000"),
+            ProductOption(brand_model="Múltiplos LG Teto", type_desc="Piso Teto Inverter", capacity=f"{max(2, num_36+1)}x 36.000 BTU/h", efficiency="A", price_estimate="Sob Consulta", buy_link="https://www.leveros.com.br/busca?q=lg+teto+36000")
+        ]
 
 
 class HvacCalculator(BaseCalculator):
@@ -251,29 +314,43 @@ class HvacCalculator(BaseCalculator):
             ]
         )
 
+        # Determinação dos degraus comerciais padrão
+        commercial_btu = total_btu
         if total_btu <= 9000:
+            commercial_btu = 9000
             maquina = "1x Split 9.000 BTU/h"
         elif total_btu <= 12000:
+            commercial_btu = 12000
             maquina = "1x Split 12.000 BTU/h"
         elif total_btu <= 18000:
+            commercial_btu = 18000
             maquina = "1x Split 18.000 BTU/h"
         elif total_btu <= 24000:
+            commercial_btu = 24000
             maquina = "1x Split 24.000 BTU/h"
         elif total_btu <= 30000:
+            commercial_btu = 30000
             maquina = "1x Split 30.000 BTU/h"
         elif total_btu <= 36000:
-            maquina = "1x Split 36.000 BTU/h"
+            commercial_btu = 36000
+            maquina = "1x Split Piso-Teto 36.000 BTU/h"
         elif total_btu <= 48000:
-            maquina = "1x Split Piso-Teto 48.000 BTU/h"
+            commercial_btu = 48000
+            maquina = "1x Cassete / Piso-Teto 48.000 BTU/h"
         elif total_btu <= 60000:
-            maquina = f"1x Cassete / Fan Coil 60.000 BTU/h (Carga: {total_btu:,.0f} BTU/h)"
+            commercial_btu = 60000
+            maquina = f"1x Cassete / Piso-Teto 60.000 BTU/h (Carga: {total_btu:,.0f} BTU/h)"
         else:
+            commercial_btu = 999999
             maquina = f"Sistema VRF ou múltiplos equipamentos (Carga total: {total_btu:,.0f} BTU/h)"
+
+        options = get_dynamic_equipment(commercial_btu, total_btu)
 
         summary = {
             "total_btu": total_btu,
             "total_watts": round(total_btu * 0.293071, 2),
             "suggested_equipment": maquina,
+            "recommended_options": [opt.dict() for opt in options]
         }
 
         metadata = {
@@ -282,7 +359,7 @@ class HvacCalculator(BaseCalculator):
                 "Carga Latente por Pessoa": f"{CARGA_LATENTE_PESSOA_BTU} BTU/h",
                 "Iluminação Média": f"{ILUMINACAO_W_POR_M2} W/m²",
                 "Fator de Conversão Watt/BTU": FATOR_WATT_PARA_BTU,
-                "Pé-Direito de Referência NBR": f"{PE_DIREITO_REFERENCIA} m",
+                "Pé-Direito Base da Norma": f"{PE_DIREITO_REFERENCIA} m (Usado para correção volumétrica)",
                 "Fator de Segurança (Cargas não previstas)": f"+{int((FATOR_SEGURANCA - 1) * 100)}%",
             },
             "references": [
@@ -308,6 +385,7 @@ class HvacCalculator(BaseCalculator):
             total_btu_h=result.summary["total_btu"],
             total_watts=result.summary["total_watts"],
             suggested_equipment=result.summary["suggested_equipment"],
+            recommended_options=result.summary.get("recommended_options", []),
             step_by_step=step_by_step,
             warnings=result.warnings,
             constants_used=result.metadata["constants_used"],

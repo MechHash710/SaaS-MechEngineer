@@ -27,7 +27,11 @@ export const authService = {
     // Store tokens
     if (response.data.access_token) {
       localStorage.setItem('@EngenhariaPro:token', response.data.access_token);
-      localStorage.setItem('@EngenhariaPro:refresh_token', response.data.refresh_token);
+      if (response.data.refresh_token) {
+        localStorage.setItem('@EngenhariaPro:refresh_token', response.data.refresh_token);
+      } else {
+        localStorage.removeItem('@EngenhariaPro:refresh_token');
+      }
     }
     
     return response.data;
@@ -51,7 +55,11 @@ export const authService = {
     const response = await api.post('/auth/refresh', { refresh_token: refreshToken });
     if (response.data.access_token) {
       localStorage.setItem('@EngenhariaPro:token', response.data.access_token);
-      localStorage.setItem('@EngenhariaPro:refresh_token', response.data.refresh_token);
+      if (response.data.refresh_token) {
+        localStorage.setItem('@EngenhariaPro:refresh_token', response.data.refresh_token);
+      } else {
+        localStorage.removeItem('@EngenhariaPro:refresh_token');
+      }
       return response.data.access_token;
     }
     throw new Error("Failed to refresh token");

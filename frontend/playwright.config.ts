@@ -6,7 +6,7 @@ export default defineConfig({
   timeout: 60000,
   retries: 1,
   workers: 1,
-  reporter: 'list',
+  reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:5174',
     // Disable trace/screenshots to avoid ENOSPC (disk full) errors

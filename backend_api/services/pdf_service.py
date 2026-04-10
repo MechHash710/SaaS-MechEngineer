@@ -44,7 +44,7 @@ class PDFGenerator:
     def __init__(self, templates_dir: str):
         self.env = Environment(loader=FileSystemLoader(templates_dir))
 
-    def generate(self, template_name: str, data: dict, output_filename: str = None) -> bytes:
+    def generate(self, template_name: str, data: dict, output_filename: str = None):
         buffer = BytesIO()
         doc = SimpleDocTemplate(
             buffer,
@@ -63,6 +63,40 @@ class PDFGenerator:
 
         pdf_bytes = buffer.getvalue()
         buffer.close()
+        
+        from core.config import settings
+        
+        if settings.R2_ACCOUNT_ID and settings.R2_ACCESS_KEY_ID:
+            import boto3
+            import uuid
+            from botocore.config import Config
+            
+            s3_client = boto3.client(
+                "s3",
+                endpoint_url=f"https://{settings.R2_ACCOUNT_ID}.r2.cloudflarestorage.com",
+                aws_access_key_id=settings.R2_ACCESS_KEY_ID,
+                aws_secret_access_key=settings.R2_SECRET_ACCESS_KEY,
+                config=Config(signature_version="s3v4")
+            )
+            
+            file_key = f"pdfs/{uuid.uuid4().hex}_{output_filename if output_filename else 'documentator.pdf'}"
+            
+            # Upload with content passing
+            s3_client.put_object(
+                Bucket=settings.R2_BUCKET_NAME,
+                Key=file_key,
+                Body=pdf_bytes,
+                ContentType="application/pdf"
+            )
+            
+            # Presigned URL (1 hour)
+            url = s3_client.generate_presigned_url(
+                "get_object",
+                Params={"Bucket": settings.R2_BUCKET_NAME, "Key": file_key},
+                ExpiresIn=3600
+            )
+            return url
+            
         return pdf_bytes
 
     # ── Page decoration ───────────────────────────────────────────────────────

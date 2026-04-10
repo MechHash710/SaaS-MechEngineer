@@ -1,35 +1,36 @@
-# ─── Stage 1: Builder ─────────────────────────────────────────────────────────
-FROM python:3.11-slim AS builder
-
-WORKDIR /build
-
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends gcc libpq-dev && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
-
-# ─── Stage 2: Runtime ─────────────────────────────────────────────────────────
-FROM python:3.11-slim AS runtime
-
-# Non-root user for security
-RUN useradd -m -u 1001 appuser
+# Builder Stage
+FROM python:3.11-slim as builder
 
 WORKDIR /app
 
-# Copy only the installed packages from builder
-COPY --from=builder /install /usr/local
-RUN apt-get update && apt-get install -y --no-install-recommends libpq5 curl && rm -rf /var/lib/apt/lists/*
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends gcc build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy application source
-COPY --chown=appuser:appuser . .
+# Install python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
 
-USER appuser
+# Runtime Stage
+FROM python:3.11-slim
 
-# Health check via /health endpoint
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:8000/health || exit 1
+WORKDIR /app
 
+# Copy dependencies from builder
+COPY --from=builder /root/.local /root/.local
+
+# Ensure local bin is in PATH
+ENV PATH=/root/.local/bin:$PATH
+
+# Copy app code
+COPY . .
+
+# Remove unwanted files/folders globally
+RUN rm -rf venv __pycache__ *.db || true
+RUN find . -type d -name __pycache__ -exec rm -r {} + || true
+
+# Expose port
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
+# Start Gunicorn with Uvicorn workers
+CMD ["gunicorn", "main:app", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]

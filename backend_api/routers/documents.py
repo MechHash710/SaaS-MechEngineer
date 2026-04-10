@@ -113,10 +113,14 @@ def generate_memorial(
         "doc_number": f"MEM-{request.project_id}",
     }
 
-    pdf_bytes = pdf_service.generate("memorial_calculo.html", data)
+    pdf_result = pdf_service.generate("memorial_calculo.html", data, output_filename=f"memorial_{tipo}_{request.project_id}.pdf")
+
+    if isinstance(pdf_result, str):
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url=pdf_result, status_code=303)
 
     return Response(
-        content=pdf_bytes,
+        content=pdf_result,
         media_type="application/pdf",
         headers={
             "Content-Disposition": f"attachment; filename=memorial_{tipo}_{request.project_id}.pdf"
@@ -140,10 +144,14 @@ def generate_especificacao(
         "doc_number": f"SPEC-{request.project_id}",
     }
 
-    pdf_bytes = pdf_service.generate("especificacao_equipamento.html", data)
+    pdf_result = pdf_service.generate("especificacao_equipamento.html", data, output_filename=f"especificacao_{request.project_id}.pdf")
+
+    if isinstance(pdf_result, str):
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url=pdf_result, status_code=303)
 
     return Response(
-        content=pdf_bytes,
+        content=pdf_result,
         media_type="application/pdf",
         headers={
             "Content-Disposition": f"attachment; filename=especificacao_{request.project_id}.pdf"
@@ -171,10 +179,14 @@ def generate_laudo(
         "doc_number": f"LAUDO-{request.project_id}",
     }
 
-    pdf_bytes = pdf_service.generate("laudo_tecnico.html", data)
+    pdf_result = pdf_service.generate("laudo_tecnico.html", data, output_filename=f"laudo_{tipo}_{request.project_id}.pdf")
+
+    if isinstance(pdf_result, str):
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url=pdf_result, status_code=303)
 
     return Response(
-        content=pdf_bytes,
+        content=pdf_result,
         media_type="application/pdf",
         headers={
             "Content-Disposition": f"attachment; filename=laudo_{tipo}_{request.project_id}.pdf"
@@ -191,10 +203,14 @@ def generate_relatorio_completo(
     data = request.model_dump()
     data["current_date"] = datetime.datetime.now().strftime("%d/%m/%Y")
 
-    pdf_bytes = pdf_service.generate("relatorio_completo.html", data)
+    pdf_result = pdf_service.generate("relatorio_completo.html", data, output_filename=f"relatorio_completo_{request.project_id}.pdf")
+
+    if isinstance(pdf_result, str):
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url=pdf_result, status_code=303)
 
     return Response(
-        content=pdf_bytes,
+        content=pdf_result,
         media_type="application/pdf",
         headers={
             "Content-Disposition": f"attachment; filename=relatorio_completo_{request.project_id}.pdf"

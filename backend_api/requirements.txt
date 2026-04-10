@@ -17,3 +17,5 @@ stripe==14.4.1
 email-validator==2.3.0
 locust==2.32.2
 cachetools==5.3.3
+boto3==1.34.40
+sentry-sdk[fastapi]==1.40.6

@@ -14,6 +14,9 @@ A carga total é composta por:
 | Carga de Equipamentos (W × 3.41 BTU/h) | NIST SP 811 |
 | Fator de Segurança (+10%) | Auditoria de engenharia |
 
+> **Nota sobre Atualização ASHRAE 2021:**
+> O motor de cálculo foi recentemente atualizado para refletir as tabelas de calor latente/sensível por ocupante da *ASHRAE Fundamentals 2021*. Essa correção ajusta a proporção de dissipação de calor humano de acordo com as diretrizes climáticas tropicais mais recentes, melhorando a precisão em ambientes muito adensados.
+
 ---
 
 ## Campos do Formulário

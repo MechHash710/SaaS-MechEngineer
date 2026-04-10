@@ -7,8 +7,8 @@ test('DEBUG - capture page state after login', async ({ page }) => {
   await page.fill('input[name="password"]', 'senha123!');
   await page.click('button[type="submit"]');
   
-  // Wait 5 seconds to let the redirect and React state settle
-  await page.waitForTimeout(5000);
+  // Wait for the page to settle by listening for a specific selector
+  await page.waitForSelector('button');
   
   // Log the current URL 
   console.log('URL after login:', page.url());

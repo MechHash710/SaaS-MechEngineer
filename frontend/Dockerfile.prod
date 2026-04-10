@@ -1,26 +1,33 @@
-# ─── Stage 1: Build React app ─────────────────────────────────────────────────
-FROM node:20-alpine AS builder
+# Stage 1: Build
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
+# Copy package config
 COPY package*.json ./
-RUN npm ci --silent
 
+# Install dependencies (using npm install as fallback in case package-lock is missing, but npm ci is preferred if present)
+RUN npm ci || npm install
+
+# Copy source code
 COPY . .
+
+# Build Vite project
 RUN npm run build
 
-# ─── Stage 2: Serve via Nginx ─────────────────────────────────────────────────
-FROM nginx:alpine AS runtime
+# Stage 2: Serve
+FROM nginx:alpine
 
-# Copy built static files
+# Remove default nginx static assets
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy build artifacts from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Custom nginx configuration with gzip, caching, and SPA routing
+# Target the custom nginx configuration for SPA routing
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Expose port 80
 EXPOSE 80
-
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD wget -qO- http://localhost/health.html || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
