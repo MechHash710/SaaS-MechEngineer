@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "changeme-in-production-long-secure-string"
 
     # CORS
-    CORS_ORIGINS: str = "http://localhost:5174,https://thermes.com.br,https://www.thermes.com.br,https://app.thermes.com.br"
+    CORS_ORIGINS: str = "http://localhost:5173,http://localhost:5174,https://thermes.com.br,https://www.thermes.com.br,https://app.thermes.com.br,https://thorough-serenity-production.up.railway.app"
 
     # Database (Defaults to SQLite for local dev, override with PostgreSQL URL on Railway)
     DATABASE_URL: str = "sqlite:///./engineering_platform.db"
