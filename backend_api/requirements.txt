@@ -1,5 +1,6 @@
 fastapi==0.115.6
 pydantic==2.10.3
+pydantic-settings==2.2.1
 python-dotenv==1.0.1
 uvicorn==0.34.0
 httpx==0.27.0
@@ -16,7 +17,6 @@ passlib[bcrypt]==1.7.4
 python-multipart==0.0.9
 stripe==14.4.1
 email-validator==2.3.0
-locust==2.32.2
 cachetools==5.3.3
 boto3==1.34.40
 sentry-sdk[fastapi]==1.40.6
