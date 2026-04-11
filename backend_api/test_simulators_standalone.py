@@ -1,8 +1,9 @@
 import asyncio
+
+from routers.energy_efficiency import EnergyEfficiencyCalculator, EnergyEfficiencyInput
 from routers.simulation import HvacCalculator, ThermalInput
 from routers.solar_heating import SolarHeatingCalculator, SolarHeatingInput
 from routers.ventilation import VentilationCalculator, VentilationInput
-from routers.energy_efficiency import EnergyEfficiencyCalculator, EnergyEfficiencyInput
 
 async def test_hvac():
     print("--- HVAC Test ---")
@@ -19,7 +20,7 @@ async def test_hvac():
     )
     res = await calc.calculate(data)
     print(f"Minimal Case (30m2, 2p): {res.summary['total_btu']} BTU/h ({res.summary['total_btu']/30:.1f} BTU/m2)")
-    
+
     # Case 2: Standard (30m2, 2 people, Afternoon sun in Fortaleza)
     data_for = ThermalInput(
         area_m2=30.0,

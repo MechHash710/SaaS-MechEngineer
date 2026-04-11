@@ -1,6 +1,6 @@
-import urllib.request
-import urllib.error
 import json
+import urllib.error
+import urllib.request
 
 endpoints = [
     {
@@ -41,15 +41,15 @@ for ep in endpoints:
     except urllib.error.HTTPError as e:
         print(f"❌ {ep['name']} Falhou (HTTP Error: {e.code})")
     except Exception as e:
-        print(f"❌ {ep['name']} Falhou (Error: {str(e)})")
+        print(f"❌ {ep['name']} Falhou (Error: {e!s})")
 
 # Health
 try:
     with urllib.request.urlopen("http://localhost:8000/health") as response:
         status = response.getcode()
         if status == 200:
-            print(f"✅ Health Passou (200 OK)")
+            print("✅ Health Passou (200 OK)")
         else:
             print(f"❌ Health Falhou (status: {status})")
 except Exception as e:
-    print(f"❌ Health Falhou (Error: {str(e)})")
+    print(f"❌ Health Falhou (Error: {e!s})")

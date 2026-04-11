@@ -98,8 +98,8 @@ class SolarHeatingCalculator(BaseCalculator):
         area_corrigida = area_necessaria / fator_inclinacao
 
         # Quantidade de placas (Assumindo placa genérica de 2.0 m² — mas usando a area real)
-        AREA_COLETOR_PADRAO_M2 = 2.0  # m² por painel (padrão de mercado)
-        num_placas = max(1, round(area_corrigida / AREA_COLETOR_PADRAO_M2))
+        area_coletor_padrao_m2 = 2.0  # m² por painel (padrão de mercado)
+        num_placas = max(1, round(area_corrigida / area_coletor_padrao_m2))
         area_instalada = round(area_corrigida, 2)  # Usa a área calculada real, não múltiplo fixo
 
         # Recalculando Fração Solar Efetiva
