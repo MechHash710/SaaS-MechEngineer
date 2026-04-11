@@ -1,9 +1,10 @@
-import os
+from core.config import settings
 
-STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_mock")
-STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "whsec_mock")
+STRIPE_SECRET_KEY = settings.STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET = settings.STRIPE_WEBHOOK_SECRET
 
 PRICE_IDS = {
-    "pro": os.environ.get("STRIPE_PRICE_PRO", "price_pro_mock_id"),
-    "enterprise": os.environ.get("STRIPE_PRICE_ENTERPRISE", "price_enterprise_mock_id"),
+    "pro": settings.STRIPE_PRICE_PRO,
+    "enterprise": settings.STRIPE_PRICE_ENTERPRISE,
 }
+
