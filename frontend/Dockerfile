@@ -12,6 +12,10 @@ RUN npm ci || npm install
 # Copy source code
 COPY . .
 
+# Accept build arguments from Railway
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 # Build Vite project
 RUN npm run build
 
