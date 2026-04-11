@@ -63,7 +63,7 @@ class PDFGenerator:
 
         pdf_bytes = buffer.getvalue()
         buffer.close()
-        
+
         from core.config import settings
         
         if settings.R2_ACCOUNT_ID and settings.R2_ACCESS_KEY_ID:
@@ -78,9 +78,9 @@ class PDFGenerator:
                 aws_secret_access_key=settings.R2_SECRET_ACCESS_KEY,
                 config=Config(signature_version="s3v4")
             )
-            
+
             file_key = f"pdfs/{uuid.uuid4().hex}_{output_filename if output_filename else 'documentator.pdf'}"
-            
+
             # Upload with content passing
             s3_client.put_object(
                 Bucket=settings.R2_BUCKET_NAME,
@@ -88,7 +88,7 @@ class PDFGenerator:
                 Body=pdf_bytes,
                 ContentType="application/pdf"
             )
-            
+
             # Presigned URL (1 hour)
             url = s3_client.generate_presigned_url(
                 "get_object",
@@ -96,7 +96,7 @@ class PDFGenerator:
                 ExpiresIn=3600
             )
             return url
-            
+
         return pdf_bytes
 
     # ── Page decoration ───────────────────────────────────────────────────────

@@ -62,8 +62,9 @@ app = FastAPI(
     ],
 )
 
-from core.config import settings
 import sentry_sdk
+
+from core.config import settings
 
 if settings.SENTRY_DSN:
     sentry_sdk.init(
